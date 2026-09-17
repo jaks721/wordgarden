@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>WordGarden - Premium Ad-Free Word Puzzles</title>
+  <title>WordGarden - Ad-Free Word Puzzles</title>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0d1b22">
   <style>
     :root {
@@ -17,10 +16,11 @@
       --tile-border: rgba(255, 255, 255, 0.45);
       --tile-solved: #ffffff;
       --tile-text: #0f2330;
-      --wheel-bg: rgba(10, 25, 35, 0.65);
+      --wheel-bg: rgba(10, 25, 35, 0.72);
       --node-bg: #ffffff;
       --node-text: #0f2330;
       --node-active: #38bdf8;
+      --cell-size: 38px;
     }
 
     * {
@@ -36,7 +36,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: #0d1b22;
       color: #ffffff;
     }
@@ -57,7 +57,7 @@
     .scenic-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(13, 27, 34, 0.35) 0%, rgba(9, 20, 26, 0.82) 100%);
+      background: radial-gradient(circle at 50% 30%, rgba(13, 27, 34, 0.4) 0%, rgba(9, 20, 26, 0.85) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -87,7 +87,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 18px 8px 18px;
+      padding: 12px 16px 6px 16px;
     }
 
     .btn-circle {
@@ -108,9 +108,7 @@
       transition: transform 0.15s ease;
     }
 
-    .btn-circle:active {
-      transform: scale(0.9);
-    }
+    .btn-circle:active { transform: scale(0.92); }
 
     .butterfly-jar {
       display: inline-flex;
@@ -130,30 +128,11 @@
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .butterfly-jar.pulse {
-      transform: scale(1.3);
-    }
+    .butterfly-jar.pulse { transform: scale(1.3); }
 
-    .header-center {
-      text-align: center;
-    }
-
-    .level-badge {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.7);
-    }
-
-    .sub-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-    }
+    .header-center { text-align: center; }
+    .level-badge { font-size: 1.1rem; font-weight: 800; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
+    .sub-badge { font-size: 0.75rem; font-weight: 700; color: var(--gold-light); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
 
     .tab-bar {
       position: relative;
@@ -191,7 +170,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding-bottom: 16px;
+      padding-bottom: 12px;
     }
 
     #board-area {
@@ -199,46 +178,43 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
+      padding: 6px;
       position: relative;
+      overflow: hidden;
     }
 
     #grid {
       display: grid;
-      gap: 6px;
+      gap: 5px;
       margin: auto;
     }
 
     .tile {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+      width: var(--cell-size);
+      height: var(--cell-size);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 1.35rem;
+      font-size: calc(var(--cell-size) * 0.56);
       position: relative;
       perspective: 800px;
     }
 
-    .tile.blank {
-      background: transparent;
-    }
-
+    .tile.blank { background: transparent; }
     .tile.empty {
       background: var(--tile-empty);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       border: 1.5px solid var(--tile-border);
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.25);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
     }
-
     .tile.solved {
       background: var(--tile-solved);
       color: var(--tile-text);
       border: 1.5px solid #ffffff;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 0 14px rgba(255,255,255,0.5);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35), 0 0 12px rgba(255,255,255,0.45);
       animation: tileFlip 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -251,11 +227,11 @@
       position: absolute;
       top: -8px;
       right: -8px;
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       z-index: 4;
       pointer-events: none;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.7));
       animation: butterflyHover 2.2s infinite ease-in-out alternate;
     }
 
@@ -276,42 +252,34 @@
     }
 
     #preview-area {
-      height: 42px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     #preview-pill {
       min-width: 140px;
-      padding: 6px 22px;
-      background: rgba(10, 25, 35, 0.8);
+      padding: 5px 20px;
+      background: rgba(10, 25, 35, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1.5px solid rgba(56, 189, 248, 0.5);
-      border-radius: 25px;
-      font-size: 1.25rem;
+      border-radius: 20px;
+      font-size: 1.2rem;
       font-weight: 900;
       letter-spacing: 4px;
       color: #38bdf8;
       text-align: center;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(6px);
       transition: all 0.15s ease;
     }
 
-    #preview-pill.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    #preview-pill.shake {
-      animation: shake 0.4s ease;
-      border-color: #ef4444;
-      color: #ef4444;
-    }
+    #preview-pill.visible { opacity: 1; transform: translateY(0); }
+    #preview-pill.shake { animation: shake 0.4s ease; border-color: #ef4444; color: #ef4444; }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -323,13 +291,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      gap: 16px;
       padding: 0 16px;
     }
 
     .side-wheel-btn {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(12px);
@@ -345,23 +313,13 @@
       transition: transform 0.15s ease;
     }
 
-    .side-wheel-btn:active {
-      transform: scale(0.92);
-    }
-
-    .side-wheel-btn span {
-      font-size: 0.68rem;
-      font-weight: 800;
-      margin-top: 1px;
-      color: #f1f5f9;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .side-wheel-btn:active { transform: scale(0.92); }
+    .side-wheel-btn span { font-size: 0.65rem; font-weight: 800; margin-top: 1px; color: #f1f5f9; text-transform: uppercase; }
 
     #wheel-plate {
       position: relative;
-      width: 230px;
-      height: 230px;
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
       background: var(--wheel-bg);
       backdrop-filter: blur(16px);
@@ -382,19 +340,19 @@
 
     .letter-node {
       position: absolute;
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: var(--node-bg);
       color: var(--node-text);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.55rem;
+      font-size: 1.5rem;
       font-weight: 900;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.4), inset 0 2px 3px rgba(255,255,255,0.8);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 2px 3px rgba(255,255,255,0.8);
       transform: translate(-50%, -50%);
-      transition: transform 0.1s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.1s ease, background-color 0.15s ease, color 0.15s ease;
       z-index: 3;
       pointer-events: none;
     }
@@ -403,12 +361,12 @@
       background: var(--node-active);
       color: #ffffff;
       transform: translate(-50%, -50%) scale(1.18);
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.9), 0 6px 16px rgba(0,0,0,0.4);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.9), 0 6px 16px rgba(0,0,0,0.4);
     }
 
     #toast {
       position: absolute;
-      top: 68px;
+      top: 64px;
       left: 50%;
       transform: translateX(-50%) translateY(-15px);
       background: rgba(10, 25, 35, 0.92);
@@ -427,10 +385,7 @@
       white-space: nowrap;
     }
 
-    #toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     .modal-backdrop {
       position: absolute;
@@ -447,49 +402,35 @@
       text-align: center;
     }
 
-    .modal-backdrop.active {
-      display: flex;
-    }
+    .modal-backdrop.active { display: flex; }
 
     .modal-box {
       background: rgba(17, 34, 46, 0.95);
       border: 1.5px solid rgba(255, 255, 255, 0.25);
       border-radius: 20px;
-      padding: 26px;
+      padding: 24px;
       width: 100%;
       max-width: 380px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     }
 
-    .modal-title {
-      font-size: 1.5rem;
-      font-weight: 900;
-      margin-bottom: 6px;
-    }
-
-    .modal-desc {
-      font-size: 0.9rem;
-      color: #94a3b8;
-      line-height: 1.4;
-      margin-bottom: 18px;
-    }
+    .modal-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
+    .modal-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
 
     .primary-btn {
       background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #ffffff;
       border: none;
-      padding: 13px 30px;
+      padding: 12px 28px;
       border-radius: 30px;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
       box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
       transition: transform 0.15s ease;
     }
 
-    .primary-btn:active {
-      transform: scale(0.95);
-    }
+    .primary-btn:active { transform: scale(0.95); }
 
     #sanctuary-screen {
       position: relative;
@@ -501,12 +442,10 @@
       overflow-y: auto;
     }
 
-    #sanctuary-screen.active {
-      display: flex;
-    }
+    #sanctuary-screen.active { display: flex; }
 
     .sanctuary-meadow {
-      height: 200px;
+      height: 180px;
       border-radius: 18px;
       background: linear-gradient(180deg, rgba(2, 132, 199, 0.35) 0%, rgba(5, 150, 105, 0.45) 80%, rgba(4, 120, 87, 0.6) 100%);
       border: 1.5px solid rgba(255, 255, 255, 0.25);
@@ -534,7 +473,7 @@
     .species-collection {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      gap: 10px;
     }
 
     .species-tile {
@@ -542,17 +481,17 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 14px;
-      padding: 12px;
+      padding: 10px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .cal-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 6px;
-      margin: 14px 0;
+      margin: 12px 0;
     }
 
     .cal-day {
@@ -629,7 +568,7 @@
 
     <div id="wheel-controls">
       <button class="side-wheel-btn" id="btn-shuffle">
-        <span style="font-size:1.25rem;">🔀</span>
+        <span style="font-size:1.2rem;">🔀</span>
         <span>Shuffle</span>
       </button>
 
@@ -639,7 +578,7 @@
       </div>
 
       <button class="side-wheel-btn" id="btn-hint">
-        <span style="font-size:1.25rem;">💡</span>
+        <span style="font-size:1.2rem;">💡</span>
         <span>Hint</span>
       </button>
     </div>
@@ -683,8 +622,8 @@
 </div>
 
 <script>
-const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "PLANE", "r": 2, "c": 0, "d": "H"}, {"w": "LATE", "r": 0, "c": 1, "d": "V"}, {"w": "NEAT", "r": 2, "c": 3, "d": "V"}, {"w": "TAPE", "r": 4, "c": 0, "d": "H"}]}, "bonus": ["PANEL", "LEAN", "TALE", "PALE", "PLAN", "LANE", "PENT", "PEAT", "PLEA"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "RIVER", "r": 0, "c": 5, "d": "V"}, {"w": "LIVE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 0, "d": "H"}, {"w": "SIRE", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["SLIVER", "VEIL", "VILE", "RILE", "LIES", "EVIL", "SLIM"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "SCALE", "r": 0, "c": 2, "d": "V"}, {"w": "LATE", "r": 0, "c": 4, "d": "V"}, {"w": "EAST", "r": 2, "c": 0, "d": "H"}, {"w": "CASE", "r": 0, "c": 0, "d": "V"}, {"w": "TALE", "r": 4, "c": 1, "d": "H"}]}, "bonus": ["CLEAT", "STALE", "SLATE", "LEAST", "SALE", "SEAT", "CATS", "ACTS"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "LOWER", "r": 0, "c": 1, "d": "V"}, {"w": "WOLF", "r": 3, "c": 0, "d": "H"}, {"w": "FLOW", "r": 0, "c": 0, "d": "V"}, {"w": "ROW", "r": 4, "c": 1, "d": "H"}, {"w": "OWL", "r": 1, "c": 1, "d": "H"}]}, "bonus": ["FOWL", "FORE", "ROLE", "WORE", "LORE", "FRO", "LOW", "FOR", "ORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "TWIN", "r": 0, "c": 3, "d": "V"}, {"w": "RENT", "r": 0, "c": 5, "d": "V"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "WINE", "r": 2, "c": 0, "d": "H"}, {"w": "TIRE", "r": 4, "c": 2, "d": "H"}]}, "bonus": ["WRITE", "TWINE", "INTER", "TIER", "RITE", "NEWT", "WET", "NET", "TIN", "WIN"]}];
-const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 2, "c": 0, "d": "H"}, {"w": "RUBE", "r": 0, "c": 5, "d": "V"}, {"w": "BRUT", "r": 0, "c": 0, "d": "V"}, {"w": "RUT", "r": 4, "c": 2, "d": "H"}]}, "bonus": ["BUTE", "BRET", "TUB", "BET", "BUT", "RUE"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 2, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "RUBE", "r": 1, "c": 5, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "READ", "r": 3, "c": 0, "d": "H"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "AGE", "r": 1, "c": 0, "d": "H"}]}, "bonus": ["GRADE", "DEAN", "DARE", "EARN", "RANG", "END", "RED"], "butterflies": [{"targetWord": "GARDEN", "r": 0, "c": 3, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "READ", "r": 3, "c": 2, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "NEAR", "r": 2, "c": 4, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 1, "d": "H"}, {"w": "PING", "r": 0, "c": 1, "d": "V"}, {"w": "SPIN", "r": 0, "c": 0, "d": "V"}, {"w": "RIG", "r": 2, "c": 2, "d": "H"}]}, "bonus": ["PRIG", "SIGN", "SNIP", "SING", "PIG", "PIN", "SIN"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 2, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "RINGS", "r": 3, "c": 2, "species": "Monarch", "color": "#f97316"}, {"targetWord": "GRIP", "r": 3, "c": 3, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
+const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "LANE", "r": 1, "c": 0, "d": "H"}, {"w": "NEAT", "r": 1, "c": 2, "d": "V"}, {"w": "ATE", "r": 3, "c": 2, "d": "H"}, {"w": "TEA", "r": 0, "c": 5, "d": "V"}]}, "bonus": ["PLANE", "PANEL", "LEAN", "LATE", "PALE", "TAPE", "PEAT", "PENT"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "VILE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 2, "d": "H"}, {"w": "SIR", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["SLIVER", "RIVER", "LIVE", "VEIL", "RILE", "LIES", "EVIL", "SIRE"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"cols": 6, "rows": 4, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "TALE", "r": 0, "c": 3, "d": "V"}, {"w": "CASE", "r": 0, "c": 0, "d": "V"}, {"w": "ATE", "r": 1, "c": 3, "d": "H"}, {"w": "SET", "r": 2, "c": 0, "d": "H"}]}, "bonus": ["SCALE", "STALE", "SLATE", "CLEAT", "LATE", "EAST", "SALE", "LAST", "CATS"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "LOWER", "r": 0, "c": 1, "d": "V"}, {"w": "WORE", "r": 2, "c": 1, "d": "H"}, {"w": "ROW", "r": 4, "c": 1, "d": "H"}, {"w": "FOR", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["FLOW", "WOLF", "FOWL", "FORE", "ROLE", "LORE", "FRO", "LOW", "FOR", "ORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"cols": 7, "rows": 4, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "TIRE", "r": 0, "c": 3, "d": "V"}, {"w": "RENT", "r": 2, "c": 3, "d": "H"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "NET", "r": 0, "c": 2, "d": "V"}]}, "bonus": ["WRITE", "TWINE", "INTER", "TWIN", "WINE", "WET", "WIN", "TIN"]}];
+const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"cols": 6, "rows": 4, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 0, "c": 3, "d": "V"}, {"w": "BET", "r": 0, "c": 0, "d": "V"}, {"w": "RUB", "r": 0, "c": 5, "d": "V"}]}, "bonus": ["BUTE", "BRET", "TUB", "BUT", "RUE"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 3, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "TRUE", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"cols": 7, "rows": 6, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "RED", "r": 5, "c": 3, "d": "H"}]}, "bonus": ["RANGED", "GRADE", "DEAN", "DARE", "EARN", "READ", "AGE", "END"], "butterflies": [{"targetWord": "GARDEN", "r": 0, "c": 1, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "DANGER", "r": 3, "c": 3, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "NEAR", "r": 2, "c": 5, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 2, "d": "H"}, {"w": "PIN", "r": 0, "c": 1, "d": "V"}, {"w": "SIN", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["PRIG", "SIGN", "SNIP", "SING", "PIG", "PIN", "RIP"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 4, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "GRIP", "r": 3, "c": 4, "species": "Monarch", "color": "#f97316"}, {"targetWord": "RINGS", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
 
 const SPECIES_META = {
   "Monarch": { color: "#f97316", desc: "Orange wanderer" },
@@ -717,7 +656,7 @@ const sfx = new SoundController();
 
 class WordGame {
   constructor() {
-    this.data = JSON.parse(localStorage.getItem("wordgarden_p") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
+    this.data = JSON.parse(localStorage.getItem("wordgarden_v3") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
     sfx.on = this.data.snd !== false;
     this.mode = "levels";
     this.today = new Date().toISOString().slice(0, 10);
@@ -733,7 +672,7 @@ class WordGame {
     this.startPuzzle();
   }
 
-  save() { localStorage.setItem("wordgarden_p", JSON.stringify(this.data)); }
+  save() { localStorage.setItem("wordgarden_v3", JSON.stringify(this.data)); }
 
   bindDOM() {
     const sBtn = document.getElementById("btn-sound");
@@ -757,7 +696,7 @@ class WordGame {
       else this.startPuzzle();
     };
 
-    this.setupWheelGestures();
+    this.setupPointerGestures();
     this.updateBadge();
   }
 
@@ -867,8 +806,13 @@ class WordGame {
   renderCrossword() {
     const gridEl = document.getElementById("grid"), pGrid = this.puzzle.grid;
     gridEl.innerHTML = "";
-    gridEl.style.gridTemplateColumns = `repeat(${pGrid.cols}, 44px)`;
-    gridEl.style.gridTemplateRows = `repeat(${pGrid.rows}, 44px)`;
+
+    const maxCols = pGrid.cols;
+    const cellSize = Math.min(42, Math.max(30, Math.floor(310 / maxCols)));
+    document.documentElement.style.setProperty("--cell-size", `${cellSize}px`);
+
+    gridEl.style.gridTemplateColumns = `repeat(${pGrid.cols}, var(--cell-size))`;
+    gridEl.style.gridTemplateRows = `repeat(${pGrid.rows}, var(--cell-size))`;
 
     this.gridMap = {};
     pGrid.words.forEach(w => {
@@ -895,7 +839,7 @@ class WordGame {
   renderWheel() {
     const container = document.getElementById("node-container"), letters = this.puzzle.letters;
     container.innerHTML = "";
-    const cx = 115, cy = 115, radius = 78;
+    const cx = 110, cy = 110, radius = 75;
 
     letters.forEach((char, i) => {
       const ang = (i * 2 * Math.PI / letters.length) - Math.PI / 2;
@@ -906,7 +850,7 @@ class WordGame {
       node.textContent = char;
       node.style.left = `${x}px`;
       node.style.top = `${y}px`;
-      node.dataset.idx = i;
+      node.dataset.idx = String(i);
       node.dataset.ch = char;
       node.dataset.x = x;
       node.dataset.y = y;
@@ -939,35 +883,33 @@ class WordGame {
     document.getElementById("bonus-modal").classList.add("active");
   }
 
-  setupWheelGestures() {
+  setupPointerGestures() {
     const wheel = document.getElementById("wheel-plate");
-    const onStart = (x, y) => {
+
+    wheel.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      try { wheel.setPointerCapture(e.pointerId); } catch(err) {}
       this.dragging = true;
       this.selected = [];
       sfx.init();
-      this.processPointer(x, y);
-    };
-    const onEnd = () => {
+      this.processPointer(e.clientX, e.clientY);
+    });
+
+    wheel.addEventListener("pointermove", e => {
+      if (!this.dragging) return;
+      e.preventDefault();
+      this.processPointer(e.clientX, e.clientY);
+    });
+
+    const onPointerEnd = e => {
       if (!this.dragging) return;
       this.dragging = false;
+      try { wheel.releasePointerCapture(e.pointerId); } catch(err) {}
       this.submitWord();
     };
 
-    wheel.addEventListener("touchstart", e => {
-      e.preventDefault();
-      onStart(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: false });
-
-    window.addEventListener("touchmove", e => {
-      if (this.dragging) this.processPointer(e.touches[0].clientX, e.touches[0].clientY);
-    }, { passive: false });
-
-    window.addEventListener("touchend", onEnd);
-    window.addEventListener("touchcancel", onEnd);
-
-    wheel.addEventListener("mousedown", e => onStart(e.clientX, e.clientY));
-    window.addEventListener("mousemove", e => { if (this.dragging) this.processPointer(e.clientX, e.clientY); });
-    window.addEventListener("mouseup", onEnd);
+    wheel.addEventListener("pointerup", onPointerEnd);
+    wheel.addEventListener("pointercancel", onPointerEnd);
   }
 
   processPointer(clientX, clientY) {
@@ -976,7 +918,8 @@ class WordGame {
 
     document.querySelectorAll(".letter-node").forEach(node => {
       const x = +node.dataset.x, y = +node.dataset.y, idx = node.dataset.idx;
-      if (Math.hypot(rx - x, ry - y) < 30) {
+
+      if (Math.hypot(rx - x, ry - y) < 34) {
         const isAlreadySelected = this.selected.some(s => s.idx === idx);
 
         if (!isAlreadySelected) {
@@ -1153,8 +1096,6 @@ class WordGame {
       b.style.left = `${15 + Math.random() * 70}%`;
       b.style.top = `${20 + Math.random() * 55}%`;
       b.style.animationDelay = `${Math.random() * 3}s`;
-      const`;
-      b.style.animationDelay = `${Math.random() * 3}s`;
       const speciesKeys = Object.keys(SPECIES_META);
       const sp = speciesKeys[i % speciesKeys.length];
       b.innerHTML = `<svg viewBox="0 0 32 32">
@@ -1191,6 +1132,10 @@ class WordGame {
 }
 
 window.addEventListener("DOMContentLoaded", () => new WordGame());
+</script>
+</body>
+</html>
+```DOMContentLoaded", () => new WordGame());
 </script>
 </body>
 </html>
