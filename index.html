@@ -3,142 +3,699 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>WordGarden - Ad-Free Word Puzzles</title>
+  <title>WordGarden - Premium Ad-Free Word Puzzles</title>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#13242d">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0d1b22">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-    body { width: 100vw; height: 100vh; overflow: hidden; font-family: system-ui, -apple-system, sans-serif; background: linear-gradient(175deg, #13242d 0%, #244855 100%); color: #fff; display: flex; justify-content: center; }
-    #app { width: 100%; max-width: 460px; height: 100%; display: flex; flex-direction: column; position: relative; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15,30,42,0.5); backdrop-filter: blur(8px); z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .hdr-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 36px; height: 36px; color: #fff; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; }
-    .badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(244,114,182,0.25); border: 1px solid rgba(244,114,182,0.4); padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; color: #fbcfe8; cursor: pointer; }
-    .nav-tabs { display: flex; padding: 6px 12px; gap: 6px; background: rgba(10,20,30,0.3); z-index: 10; }
-    .tab { flex: 1; padding: 8px 4px; background: transparent; border: none; border-radius: 8px; color: #94a3b8; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
-    .tab.active { background: rgba(255,255,255,0.15); color: #fff; }
-    #game-view { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 16px; z-index: 5; }
-    #board { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px; position: relative; }
-    #grid { display: grid; gap: 6px; margin: auto; }
-    .cell { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; position: relative; }
-    .cell.inactive { background: transparent; }
-    .cell.empty { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); }
-    .cell.solved { background: #fff; color: #0f172a; border: 1px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.3), 0 0 12px rgba(255,255,255,0.4); animation: pop 0.3s ease; }
-    @keyframes pop { 0% { transform: scale(0.7); } 100% { transform: scale(1); } }
-    .bf-icon { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; animation: flutter 1.5s infinite alternate ease-in-out; pointer-events: none; }
-    @keyframes flutter { 0% { transform: rotate(-8deg); } 100% { transform: rotate(8deg) translateY(-2px); } }
-    .flying-bf { position: fixed; width: 32px; height: 32px; pointer-events: none; z-index: 100; transition: all 0.85s cubic-bezier(0.25,1,0.5,1); }
-    #preview-wrap { height: 36px; display: flex; align-items: center; justify-content: center; }
-    #preview { padding: 5px 18px; background: rgba(15,23,42,0.8); border: 1px solid rgba(56,189,248,0.4); border-radius: 20px; font-size: 1.2rem; font-weight: 800; letter-spacing: 3px; color: #38bdf8; opacity: 0; transform: translateY(4px); transition: 0.15s; }
-    #preview.show { opacity: 1; transform: translateY(0); }
-    #preview.shake { animation: shake 0.4s ease; border-color: #ef4444; color: #ef4444; }
-    @keyframes shake { 0%,100% { transform: translateX(0); } 25%,75% { transform: translateX(-6px); } 50% { transform: translateX(6px); } }
-    #wheel-wrap { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 0 12px; }
-    .side-btn { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; }
-    #wheel { position: relative; width: 210px; height: 210px; border-radius: 50%; background: rgba(15,30,42,0.7); border: 3px solid rgba(255,255,255,0.15); box-shadow: 0 8px 30px rgba(0,0,0,0.4); touch-action: none; }
-    #svg-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
-    .node { position: absolute; width: 48px; height: 48px; border-radius: 50%; background: #fff; color: #0f172a; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transform: translate(-50%,-50%); z-index: 3; pointer-events: none; }
-    .node.selected { background: #38bdf8; color: #fff; transform: translate(-50%,-50%) scale(1.15); box-shadow: 0 0 15px rgba(56,189,248,0.8); }
-    #toast { position: absolute; top: 65px; left: 50%; transform: translateX(-50%); background: rgba(15,23,42,0.9); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; opacity: 0; pointer-events: none; transition: 0.2s; z-index: 90; border: 1px solid rgba(255,255,255,0.15); white-space: nowrap; }
-    #toast.show { opacity: 1; }
-    .modal { position: absolute; inset: 0; background: rgba(10,20,28,0.85); backdrop-filter: blur(8px); display: none; z-index: 100; padding: 20px; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-    .modal.active { display: flex; }
-    .card { background: #1e3a47; border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 24px; width: 100%; max-width: 360px; }
-    .btn { background: linear-gradient(135deg, #38bdf8, #0284c7); color: #fff; border: none; padding: 12px 24px; border-radius: 25px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 16px; }
-    #sanctuary-view { flex: 1; display: none; flex-direction: column; padding: 16px; overflow-y: auto; z-index: 5; }
-    #sanctuary-view.active { display: flex; }
-    .garden { height: 180px; border-radius: 14px; background: linear-gradient(180deg, #1e40af 0%, #065f46 75%, #064e3b 100%); position: relative; overflow: hidden; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.15); }
-    .g-bf { position: absolute; width: 28px; height: 28px; animation: floatBf 5s infinite alternate ease-in-out; }
-    @keyframes floatBf { 0% { transform: translate(0,0) rotate(5deg); } 50% { transform: translate(30px,-35px) rotate(-10deg); } 100% { transform: translate(-20px,-20px) rotate(10deg); } }
-    .species-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
-    .sp-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 8px; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 12px 0; }
-    .cal-day { aspect-ratio: 1; background: rgba(255,255,255,0.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; cursor: pointer; position: relative; }
-    .cal-day.done { background: rgba(16,185,129,0.3); border: 1px solid #10b981; color: #6ee7b7; }
-    .cal-day.today { border: 1px solid #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.5); }
+    :root {
+      --gold: #f59e0b;
+      --gold-light: #fde68a;
+      --cyan: #38bdf8;
+      --tile-empty: rgba(255, 255, 255, 0.22);
+      --tile-border: rgba(255, 255, 255, 0.45);
+      --tile-solved: #ffffff;
+      --tile-text: #0f2330;
+      --wheel-bg: rgba(10, 25, 35, 0.65);
+      --node-bg: #ffffff;
+      --node-text: #0f2330;
+      --node-active: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #0d1b22;
+      color: #ffffff;
+    }
+
+    #app-container {
+      width: 100%;
+      max-width: 480px;
+      height: 100%;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1080&q=80') center center / cover no-repeat;
+      box-shadow: 0 0 50px rgba(0,0,0,0.8);
+      overflow: hidden;
+    }
+
+    .scenic-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(13, 27, 34, 0.35) 0%, rgba(9, 20, 26, 0.82) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .firefly {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #fef08a;
+      box-shadow: 0 0 10px #fef08a, 0 0 20px #f59e0b;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 2;
+      animation: drift 8s infinite alternate ease-in-out;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(0.8); opacity: 0.3; }
+      50% { transform: translate(25px, -40px) scale(1.3); opacity: 0.8; }
+      100% { transform: translate(-20px, -80px) scale(0.9); opacity: 0.4; }
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px 8px 18px;
+    }
+
+    .btn-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-circle:active {
+      transform: scale(0.9);
+    }
+
+    .butterfly-jar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(244, 114, 182, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(244, 114, 182, 0.55);
+      padding: 6px 14px;
+      border-radius: 25px;
+      color: #fce7f3;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(244, 114, 182, 0.25);
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .butterfly-jar.pulse {
+      transform: scale(1.3);
+    }
+
+    .header-center {
+      text-align: center;
+    }
+
+    .level-badge {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .sub-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+
+    .tab-bar {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      padding: 6px 16px;
+      gap: 8px;
+    }
+
+    .tab-item {
+      flex: 1;
+      padding: 8px 4px;
+      background: rgba(15, 30, 40, 0.45);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-item.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    #game-screen {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-bottom: 16px;
+    }
+
+    #board-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      position: relative;
+    }
+
+    #grid {
+      display: grid;
+      gap: 6px;
+      margin: auto;
+    }
+
+    .tile {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.35rem;
+      position: relative;
+      perspective: 800px;
+    }
+
+    .tile.blank {
+      background: transparent;
+    }
+
+    .tile.empty {
+      background: var(--tile-empty);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid var(--tile-border);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3), 0 3px 8px rgba(0,0,0,0.25);
+    }
+
+    .tile.solved {
+      background: var(--tile-solved);
+      color: var(--tile-text);
+      border: 1.5px solid #ffffff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 0 14px rgba(255,255,255,0.5);
+      animation: tileFlip 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes tileFlip {
+      0% { transform: scale(0.5) rotateX(70deg); opacity: 0; }
+      100% { transform: scale(1) rotateX(0deg); opacity: 1; }
+    }
+
+    .butterfly-on-tile {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+      animation: butterflyHover 2.2s infinite ease-in-out alternate;
+    }
+
+    @keyframes butterflyHover {
+      0% { transform: translateY(0) rotate(-6deg) scale(1); }
+      50% { transform: translateY(-4px) rotate(6deg) scale(1.1); }
+      100% { transform: translateY(0) rotate(-6deg) scale(1); }
+    }
+
+    .flying-butterfly {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      pointer-events: none;
+      z-index: 100;
+      transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+    }
+
+    #preview-area {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+
+    #preview-pill {
+      min-width: 140px;
+      padding: 6px 22px;
+      background: rgba(10, 25, 35, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      border-radius: 25px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #38bdf8;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.15s ease;
+    }
+
+    #preview-pill.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #preview-pill.shake {
+      animation: shake 0.4s ease;
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    #wheel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 0 16px;
+    }
+
+    .side-wheel-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .side-wheel-btn:active {
+      transform: scale(0.92);
+    }
+
+    .side-wheel-btn span {
+      font-size: 0.68rem;
+      font-weight: 800;
+      margin-top: 1px;
+      color: #f1f5f9;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #wheel-plate {
+      position: relative;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: var(--wheel-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 3px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.5), inset 0 0 25px rgba(255, 255, 255, 0.08);
+      touch-action: none;
+    }
+
+    #wheel-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .letter-node {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--node-bg);
+      color: var(--node-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.55rem;
+      font-weight: 900;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4), inset 0 2px 3px rgba(255,255,255,0.8);
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .letter-node.selected {
+      background: var(--node-active);
+      color: #ffffff;
+      transform: translate(-50%, -50%) scale(1.18);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.9), 0 6px 16px rgba(0,0,0,0.4);
+    }
+
+    #toast {
+      position: absolute;
+      top: 68px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-15px);
+      background: rgba(10, 25, 35, 0.92);
+      backdrop-filter: blur(12px);
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #ffffff;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 90;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 20, 26, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 100;
+      text-align: center;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: rgba(17, 34, 46, 0.95);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 26px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #ffffff;
+      border: none;
+      padding: 13px 30px;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+      transition: transform 0.15s ease;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.95);
+    }
+
+    #sanctuary-screen {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    #sanctuary-screen.active {
+      display: flex;
+    }
+
+    .sanctuary-meadow {
+      height: 200px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.35) 0%, rgba(5, 150, 105, 0.45) 80%, rgba(4, 120, 87, 0.6) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    .flapping-butterfly {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+      animation: meadowGlide 6s infinite alternate ease-in-out;
+    }
+
+    @keyframes meadowGlide {
+      0% { transform: translate(0, 0) rotate(-10deg); }
+      33% { transform: translate(40px, -30px) rotate(10deg); }
+      66% { transform: translate(-25px, -50px) rotate(-8deg); }
+      100% { transform: translate(30px, -20px) rotate(5deg); }
+    }
+
+    .species-collection {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .species-tile {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin: 14px 0;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+    }
+
+    .cal-day.completed {
+      background: rgba(16, 185, 129, 0.3);
+      border-color: #10b981;
+      color: #6ee7b7;
+    }
+
+    .cal-day.today {
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+    }
   </style>
 </head>
 <body>
-<div id="app">
+
+<div id="app-container">
+  <div class="scenic-overlay"></div>
+
+  <div class="firefly" style="top: 25%; left: 15%; animation-delay: 0s;"></div>
+  <div class="firefly" style="top: 45%; left: 80%; animation-delay: 2s;"></div>
+  <div class="firefly" style="top: 70%; left: 30%; animation-delay: 4s;"></div>
+  <div class="firefly" style="top: 18%; left: 65%; animation-delay: 1s;"></div>
+
   <header>
-    <div style="display:flex; align-items:center; gap:8px;">
-      <button class="hdr-btn" id="btn-sound">🔊</button>
-      <div class="badge" id="btn-sanctuary"><span>🦋</span><span id="bf-count">0</span></div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button class="btn-circle" id="btn-sound" title="Toggle Sound">🔊</button>
+      <div class="butterfly-jar" id="btn-sanctuary" title="Butterfly Sanctuary">
+        <span>🦋</span>
+        <span id="bf-count">0</span>
+      </div>
     </div>
-    <div style="text-align:center;">
-      <div id="hdr-title" style="font-weight:700; font-size:1.05rem;">Level 1</div>
-      <div id="hdr-sub" style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase;">Sunrise 1</div>
+    <div class="header-center">
+      <div class="level-badge" id="level-title">Level 1</div>
+      <div class="sub-badge" id="level-sub">Garden 1</div>
     </div>
-    <div style="display:flex; align-items:center; gap:8px;">
-      <button class="hdr-btn" id="btn-bonus">📖</button>
-      <button class="hdr-btn" id="btn-restart">↺</button>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button class="btn-circle" id="btn-bonus" title="Bonus Words">📖</button>
+      <button class="btn-circle" id="btn-restart" title="Restart">↺</button>
     </div>
   </header>
 
-  <div class="nav-tabs">
-    <button class="tab active" id="tab-lvl">🌟 Levels</button>
-    <button class="tab" id="tab-day">🦋 Daily Puzzle</button>
-    <button class="tab" id="tab-snc">🌸 Sanctuary</button>
+  <div class="tab-bar">
+    <button class="tab-item active" id="tab-lvl">🌟 Levels</button>
+    <button class="tab-item" id="tab-day">🦋 Daily Puzzle</button>
+    <button class="tab-item" id="tab-snc">🌸 Sanctuary</button>
   </div>
 
   <div id="toast">Already found!</div>
 
-  <div id="game-view">
-    <div id="board"><div id="grid"></div></div>
-    <div id="preview-wrap"><div id="preview">WORD</div></div>
-    <div id="wheel-wrap">
-      <button class="side-btn" id="btn-shuffle"><span style="font-size:1.1rem;">🔀</span>Shuffle</button>
-      <div id="wheel">
-        <svg id="svg-lines"></svg>
-        <div id="nodes"></div>
+  <div id="game-screen">
+    <div id="board-area">
+      <div id="grid"></div>
+    </div>
+
+    <div id="preview-area">
+      <div id="preview-pill">WORD</div>
+    </div>
+
+    <div id="wheel-controls">
+      <button class="side-wheel-btn" id="btn-shuffle">
+        <span style="font-size:1.25rem;">🔀</span>
+        <span>Shuffle</span>
+      </button>
+
+      <div id="wheel-plate">
+        <svg id="wheel-lines"></svg>
+        <div id="node-container"></div>
       </div>
-      <button class="side-btn" id="btn-hint"><span style="font-size:1.1rem;">💡</span>Hint</button>
+
+      <button class="side-wheel-btn" id="btn-hint">
+        <span style="font-size:1.25rem;">💡</span>
+        <span>Hint</span>
+      </button>
     </div>
   </div>
 
-  <div id="sanctuary-view">
-    <h3 style="text-align:center; margin-bottom:4px;">🌸 Butterfly Sanctuary</h3>
-    <p style="text-align:center; font-size:0.8rem; color:#94a3b8; margin-bottom:12px;">Butterflies collected from your daily puzzles</p>
-    <div class="garden" id="garden"></div>
-    <div class="species-list" id="species-list"></div>
+  <div id="sanctuary-screen">
+    <h2 style="text-align:center; font-size:1.4rem; font-weight:900; margin-bottom:4px;">🌸 Butterfly Sanctuary</h2>
+    <p style="text-align:center; font-size:0.85rem; color:#cbd5e1; margin-bottom:14px;">Tranquil garden for butterflies caught in daily puzzles</p>
+    <div class="sanctuary-meadow" id="sanctuary-meadow"></div>
+    <div class="species-collection" id="species-collection"></div>
   </div>
 
-  <div class="modal" id="cal-modal">
-    <div class="card">
-      <h3>📅 Daily Puzzles</h3>
-      <p style="font-size:0.85rem; color:#94a3b8; margin-top:4px;">Select any day to solve and capture butterflies:</p>
+  <div class="modal-backdrop" id="cal-modal">
+    <div class="modal-box">
+      <div class="modal-title">📅 Daily Challenges</div>
+      <div class="modal-desc">Pick any date to play and collect butterflies (1 active at a time):</div>
       <div class="cal-grid" id="cal-grid"></div>
-      <button class="btn" id="btn-close-cal">Close</button>
+      <button class="primary-btn" id="btn-close-cal">Close</button>
     </div>
   </div>
 
-  <div class="modal" id="bonus-modal">
-    <div class="card">
-      <h3>📖 Bonus Words</h3>
-      <div id="bonus-list" style="margin:12px 0; max-height:160px; overflow-y:auto; color:#38bdf8; font-weight:700;">None yet</div>
-      <button class="btn" id="btn-close-bonus">Close</button>
+  <div class="modal-backdrop" id="bonus-modal">
+    <div class="modal-box">
+      <div class="modal-title">📖 Bonus Words</div>
+      <div class="modal-desc">Extra words you found not in the main puzzle:</div>
+      <div id="bonus-words-list" style="margin:14px 0; max-height:160px; overflow-y:auto; color:#38bdf8; font-weight:800; font-size:1.1rem; line-height:1.8;">
+        None yet
+      </div>
+      <button class="primary-btn" id="btn-close-bonus">Close</button>
     </div>
   </div>
 
-  <div class="modal" id="win-modal">
-    <div class="card">
-      <div style="font-size:3rem; margin-bottom:6px;">🎉</div>
-      <h2 id="win-title">Puzzle Complete!</h2>
-      <p id="win-sub" style="font-size:0.9rem; color:#94a3b8; margin-top:6px;">Outstanding word solving!</p>
-      <button class="btn" id="btn-next">Next Puzzle</button>
+  <div class="modal-backdrop" id="win-modal">
+    <div class="modal-box">
+      <div style="font-size:3.5rem; margin-bottom:8px;">🎉</div>
+      <div class="modal-title" id="win-title">Puzzle Complete!</div>
+      <div class="modal-desc" id="win-desc">Spectacular job finding every word!</div>
+      <button class="primary-btn" id="btn-win-next">Next Puzzle</button>
     </div>
   </div>
 </div>
 
 <script>
-const LEVELS = [{"id": 1, "title": "Sunrise 1", "letters": ["C", "A", "T"], "grid": {"cols": 3, "rows": 3, "words": [{"w": "CAT", "r": 0, "c": 0, "d": "H"}, {"w": "ACT", "r": 0, "c": 1, "d": "V"}]}, "bonus": ["AT"]}, {"id": 2, "title": "Sunrise 2", "letters": ["S", "U", "N"], "grid": {"cols": 3, "rows": 3, "words": [{"w": "SUN", "r": 0, "c": 0, "d": "H"}, {"w": "US", "r": 0, "c": 1, "d": "V"}]}, "bonus": []}, {"id": 3, "title": "Forest 1", "letters": ["T", "O", "P", "S"], "grid": {"cols": 4, "rows": 4, "words": [{"w": "TOPS", "r": 0, "c": 0, "d": "H"}, {"w": "STOP", "r": 0, "c": 3, "d": "V"}, {"w": "POT", "r": 2, "c": 0, "d": "H"}, {"w": "TOP", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["SPOT", "POST", "SOP", "OPT"]}, {"id": 4, "title": "Forest 2", "letters": ["L", "E", "A", "F"], "grid": {"cols": 4, "rows": 4, "words": [{"w": "LEAF", "r": 0, "c": 0, "d": "H"}, {"w": "FLEA", "r": 0, "c": 3, "d": "V"}, {"w": "ALE", "r": 2, "c": 1, "d": "H"}, {"w": "ELF", "r": 1, "c": 1, "d": "V"}]}, "bonus": ["FEAL"]}, {"id": 5, "title": "Canyon 1", "letters": ["S", "T", "O", "N", "E"], "grid": {"cols": 5, "rows": 5, "words": [{"w": "STONE", "r": 0, "c": 0, "d": "H"}, {"w": "TONES", "r": 0, "c": 1, "d": "V"}, {"w": "NOTE", "r": 2, "c": 0, "d": "H"}, {"w": "NEST", "r": 4, "c": 1, "d": "H"}, {"w": "ONE", "r": 2, "c": 1, "d": "V"}]}, "bonus": ["TONE", "TOES", "NOSE", "SENT", "EONS", "SON", "SET"]}, {"id": 6, "title": "Canyon 2", "letters": ["P", "L", "A", "N", "T"], "grid": {"cols": 5, "rows": 5, "words": [{"w": "PLANT", "r": 0, "c": 0, "d": "H"}, {"w": "PLAN", "r": 0, "c": 0, "d": "V"}, {"w": "PANT", "r": 2, "c": 0, "d": "H"}, {"w": "TAP", "r": 4, "c": 2, "d": "H"}, {"w": "ANT", "r": 2, "c": 2, "d": "V"}]}, "bonus": ["PLAT", "PAN", "TAN", "PAT", "NAP", "PAL", "LAP"]}, {"id": 7, "title": "Mountain 1", "letters": ["C", "L", "O", "U", "D"], "grid": {"cols": 5, "rows": 5, "words": [{"w": "CLOUD", "r": 0, "c": 0, "d": "H"}, {"w": "COLD", "r": 0, "c": 0, "d": "V"}, {"w": "LOUD", "r": 2, "c": 1, "d": "H"}, {"w": "DUO", "r": 0, "c": 3, "d": "V"}, {"w": "OLD", "r": 1, "c": 1, "d": "V"}]}, "bonus": ["CLOD", "COD", "DOC"]}, {"id": 8, "title": "Ocean 1", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "RIVER", "r": 0, "c": 5, "d": "V"}, {"w": "LIVE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 0, "d": "H"}, {"w": "SIRE", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["SLIVER", "VEIL", "VILE", "RILE", "LIES"]}];
-const DAILY = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 2, "c": 0, "d": "H"}, {"w": "RUBE", "r": 0, "c": 5, "d": "V"}, {"w": "BRUT", "r": 0, "c": 0, "d": "V"}, {"w": "RUT", "r": 4, "c": 2, "d": "H"}]}, "bonus": ["TUB", "BET", "BUT", "RUE"], "butterflies": [{"r": 0, "c": 2, "species": "Monarch", "color": "#f97316"}, {"r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"r": 0, "c": 5, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "READ", "r": 3, "c": 0, "d": "H"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "AGE", "r": 1, "c": 0, "d": "H"}]}, "bonus": ["GRADE", "DEAN", "DARE", "EARN", "RANG", "END", "RED"], "butterflies": [{"r": 0, "c": 3, "species": "Violet Copper", "color": "#a855f7"}, {"r": 3, "c": 2, "species": "Sunset Moth", "color": "#ec4899"}, {"r": 0, "c": 0, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 1, "d": "H"}, {"w": "PING", "r": 0, "c": 1, "d": "V"}, {"w": "SPIN", "r": 0, "c": 0, "d": "V"}, {"w": "RIG", "r": 2, "c": 2, "d": "H"}]}, "bonus": ["PRIG", "SIGN", "SNIP", "SING", "PIG", "PIN", "SIN"], "butterflies": [{"r": 0, "c": 2, "species": "Blue Morpho", "color": "#0ea5e9"}, {"r": 3, "c": 3, "species": "Monarch", "color": "#f97316"}]}];
-const SPECIES = {
-  "Monarch": "#f97316", "Blue Morpho": "#0284c7", "Emerald Swallowtail": "#10b981",
-  "Violet Copper": "#a855f7", "Sunset Moth": "#ec4899", "Golden Birdwing": "#eab308"
+const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "PLANE", "r": 2, "c": 0, "d": "H"}, {"w": "LATE", "r": 0, "c": 1, "d": "V"}, {"w": "NEAT", "r": 2, "c": 3, "d": "V"}, {"w": "TAPE", "r": 4, "c": 0, "d": "H"}]}, "bonus": ["PANEL", "LEAN", "TALE", "PALE", "PLAN", "LANE", "PENT", "PEAT", "PLEA"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "RIVER", "r": 0, "c": 5, "d": "V"}, {"w": "LIVE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 0, "d": "H"}, {"w": "SIRE", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["SLIVER", "VEIL", "VILE", "RILE", "LIES", "EVIL", "SLIM"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "SCALE", "r": 0, "c": 2, "d": "V"}, {"w": "LATE", "r": 0, "c": 4, "d": "V"}, {"w": "EAST", "r": 2, "c": 0, "d": "H"}, {"w": "CASE", "r": 0, "c": 0, "d": "V"}, {"w": "TALE", "r": 4, "c": 1, "d": "H"}]}, "bonus": ["CLEAT", "STALE", "SLATE", "LEAST", "SALE", "SEAT", "CATS", "ACTS"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "LOWER", "r": 0, "c": 1, "d": "V"}, {"w": "WOLF", "r": 3, "c": 0, "d": "H"}, {"w": "FLOW", "r": 0, "c": 0, "d": "V"}, {"w": "ROW", "r": 4, "c": 1, "d": "H"}, {"w": "OWL", "r": 1, "c": 1, "d": "H"}]}, "bonus": ["FOWL", "FORE", "ROLE", "WORE", "LORE", "FRO", "LOW", "FOR", "ORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "TWIN", "r": 0, "c": 3, "d": "V"}, {"w": "RENT", "r": 0, "c": 5, "d": "V"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "WINE", "r": 2, "c": 0, "d": "H"}, {"w": "TIRE", "r": 4, "c": 2, "d": "H"}]}, "bonus": ["WRITE", "TWINE", "INTER", "TIER", "RITE", "NEWT", "WET", "NET", "TIN", "WIN"]}];
+const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 2, "c": 0, "d": "H"}, {"w": "RUBE", "r": 0, "c": 5, "d": "V"}, {"w": "BRUT", "r": 0, "c": 0, "d": "V"}, {"w": "RUT", "r": 4, "c": 2, "d": "H"}]}, "bonus": ["BUTE", "BRET", "TUB", "BET", "BUT", "RUE"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 2, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "RUBE", "r": 1, "c": 5, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "READ", "r": 3, "c": 0, "d": "H"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "AGE", "r": 1, "c": 0, "d": "H"}]}, "bonus": ["GRADE", "DEAN", "DARE", "EARN", "RANG", "END", "RED"], "butterflies": [{"targetWord": "GARDEN", "r": 0, "c": 3, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "READ", "r": 3, "c": 2, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "NEAR", "r": 2, "c": 4, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"cols": 6, "rows": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 1, "d": "H"}, {"w": "PING", "r": 0, "c": 1, "d": "V"}, {"w": "SPIN", "r": 0, "c": 0, "d": "V"}, {"w": "RIG", "r": 2, "c": 2, "d": "H"}]}, "bonus": ["PRIG", "SIGN", "SNIP", "SING", "PIG", "PIN", "SIN"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 2, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "RINGS", "r": 3, "c": 2, "species": "Monarch", "color": "#f97316"}, {"targetWord": "GRIP", "r": 3, "c": 3, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
+
+const SPECIES_META = {
+  "Monarch": { color: "#f97316", desc: "Orange wanderer" },
+  "Blue Morpho": { color: "#0284c7", desc: "Iridescent azure" },
+  "Emerald Swallowtail": { color: "#10b981", desc: "Rainforest emerald" },
+  "Violet Copper": { color: "#a855f7", desc: "Twilight shimmer" },
+  "Sunset Moth": { color: "#ec4899", desc: "Rosy sunset coral" },
+  "Golden Birdwing": { color: "#eab308", desc: "Sunlit glider" }
 };
 
-class AudioFX {
+class SoundController {
   constructor() { this.ctx = null; this.on = true; }
   init() { if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); }
   tone(f, type="sine", dur=0.2) {
@@ -151,63 +708,79 @@ class AudioFX {
     o.start(); o.stop(this.ctx.currentTime + dur);
   }
   letter(i) { this.tone([261, 293, 329, 349, 392, 440, 493, 523][i % 8]); }
-  win() { [523, 659, 783].forEach((f, i) => setTimeout(() => this.tone(f, "triangle", 0.35), i * 90)); }
-  flutter() { [587, 740, 880, 1174].forEach((f, i) => setTimeout(() => this.tone(f, "sine", 0.3), i * 90)); }
-  error() { this.tone(130, "sawtooth", 0.25); }
+  wordSuccess() { [523, 659, 783].forEach((f, i) => setTimeout(() => this.tone(f, "triangle", 0.35), i * 90)); }
+  butterflyChime() { [587, 740, 880, 1174].forEach((f, i) => setTimeout(() => this.tone(f, "sine", 0.3), i * 90)); }
+  errorTone() { this.tone(130, "sawtooth", 0.22); }
 }
 
-const sfx = new AudioFX();
+const sfx = new SoundController();
 
-class Game {
+class WordGame {
   constructor() {
-    this.data = JSON.parse(localStorage.getItem("wg_data") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
+    this.data = JSON.parse(localStorage.getItem("wordgarden_p") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
     sfx.on = this.data.snd !== false;
     this.mode = "levels";
     this.today = new Date().toISOString().slice(0, 10);
     this.dailyDate = this.today;
     this.selected = [];
-    this.solved = new Set();
-    this.bonusFound = new Set();
+    this.solvedWords = new Set();
+    this.bonusWordsFound = new Set();
     this.dragging = false;
+    this.butterflyQueue = [];
+    this.activeButterfly = null;
 
-    this.bindUI();
-    this.loadPuzzle();
+    this.bindDOM();
+    this.startPuzzle();
   }
 
-  save() { localStorage.setItem("wg_data", JSON.stringify(this.data)); }
+  save() { localStorage.setItem("wordgarden_p", JSON.stringify(this.data)); }
 
-  bindUI() {
+  bindDOM() {
     const sBtn = document.getElementById("btn-sound");
     sBtn.textContent = sfx.on ? "🔊" : "🔇";
     sBtn.onclick = () => { sfx.on = !sfx.on; this.data.snd = sfx.on; sBtn.textContent = sfx.on ? "🔊" : "🔇"; this.save(); };
-    document.getElementById("tab-lvl").onclick = () => this.setMode("levels");
-    document.getElementById("tab-day").onclick = () => this.openDaily();
-    document.getElementById("tab-snc").onclick = () => this.setMode("sanctuary");
-    document.getElementById("btn-sanctuary").onclick = () => this.setMode("sanctuary");
-    document.getElementById("btn-shuffle").onclick = () => this.shuffle();
-    document.getElementById("btn-hint").onclick = () => this.hint();
-    document.getElementById("btn-restart").onclick = () => this.loadPuzzle();
+
+    document.getElementById("tab-lvl").onclick = () => this.switchMode("levels");
+    document.getElementById("tab-day").onclick = () => this.openCalendar();
+    document.getElementById("tab-snc").onclick = () => this.switchMode("sanctuary");
+    document.getElementById("btn-sanctuary").onclick = () => this.switchMode("sanctuary");
+
+    document.getElementById("btn-shuffle").onclick = () => this.shuffleLetters();
+    document.getElementById("btn-hint").onclick = () => this.giveHint();
+    document.getElementById("btn-restart").onclick = () => this.startPuzzle();
     document.getElementById("btn-bonus").onclick = () => this.openBonus();
     document.getElementById("btn-close-bonus").onclick = () => document.getElementById("bonus-modal").classList.remove("active");
     document.getElementById("btn-close-cal").onclick = () => document.getElementById("cal-modal").classList.remove("active");
-    document.getElementById("btn-next").onclick = () => { document.getElementById("win-modal").classList.remove("active"); if (this.mode==="daily") this.setMode("sanctuary"); else this.loadPuzzle(); };
+    document.getElementById("btn-win-next").onclick = () => {
+      document.getElementById("win-modal").classList.remove("active");
+      if (this.mode === "daily") this.switchMode("sanctuary");
+      else this.startPuzzle();
+    };
 
-    this.bindWheel();
-    this.updateBfBadge();
+    this.setupWheelGestures();
+    this.updateBadge();
   }
 
-  updateBfBadge() { document.getElementById("bf-count").textContent = this.data.bf || 0; }
+  updateBadge() {
+    document.getElementById("bf-count").textContent = this.data.bf || 0;
+  }
 
-  setMode(m) {
+  switchMode(m) {
     this.mode = m;
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.getElementById("game-view").style.display = m === "sanctuary" ? "none" : "flex";
-    document.getElementById("sanctuary-view").classList.toggle("active", m === "sanctuary");
-    if (m === "levels") { document.getElementById("tab-lvl").classList.add("active"); this.loadPuzzle(); }
-    else if (m === "sanctuary") { document.getElementById("tab-snc").classList.add("active"); this.renderSanctuary(); }
+    document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
+    document.getElementById("game-screen").style.display = m === "sanctuary" ? "none" : "flex";
+    document.getElementById("sanctuary-screen").classList.toggle("active", m === "sanctuary");
+
+    if (m === "levels") {
+      document.getElementById("tab-lvl").classList.add("active");
+      this.startPuzzle();
+    } else if (m === "sanctuary") {
+      document.getElementById("tab-snc").classList.add("active");
+      this.renderSanctuary();
+    }
   }
 
-  openDaily() {
+  openCalendar() {
     const modal = document.getElementById("cal-modal"), grid = document.getElementById("cal-grid");
     grid.innerHTML = "";
     const now = new Date(), y = now.getFullYear(), m = now.getMonth();
@@ -215,261 +788,409 @@ class Game {
     for (let d = 1; d <= days; d++) {
       const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const el = document.createElement("div");
-      el.className = "cal-day" + (ds === this.today ? " today" : "") + (this.data.days[ds] ? " done" : "");
+      el.className = "cal-day" + (ds === this.today ? " today" : "") + (this.data.days[ds] ? " completed" : "");
       el.textContent = d;
-      el.onclick = () => { this.dailyDate = ds; modal.classList.remove("active"); this.mode = "daily"; document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active")); document.getElementById("tab-day").classList.add("active"); document.getElementById("game-view").style.display="flex"; document.getElementById("sanctuary-view").classList.remove("active"); this.loadPuzzle(); };
+      el.onclick = () => {
+        this.dailyDate = ds;
+        modal.classList.remove("active");
+        this.mode = "daily";
+        document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
+        document.getElementById("tab-day").classList.add("active");
+        document.getElementById("game-screen").style.display = "flex";
+        document.getElementById("sanctuary-screen").classList.remove("active");
+        this.startPuzzle();
+      };
       grid.appendChild(el);
     }
     modal.classList.add("active");
   }
 
-  loadPuzzle() {
-    this.solved.clear(); this.bonusFound.clear(); this.bfMap = {};
+  startPuzzle() {
+    this.solvedWords.clear();
+    this.bonusWordsFound.clear();
+    this.activeButterfly = null;
+    this.butterflyQueue = [];
+
     if (this.mode === "levels") {
       const idx = (this.data.lvl || 0) % LEVELS.length;
-      this.pz = JSON.parse(JSON.stringify(LEVELS[idx]));
-      document.getElementById("hdr-title").textContent = `Level ${this.data.lvl + 1}`;
-      document.getElementById("hdr-sub").textContent = this.pz.title;
+      this.puzzle = JSON.parse(JSON.stringify(LEVELS[idx]));
+      document.getElementById("level-title").textContent = `Level ${this.data.lvl + 1}`;
+      document.getElementById("level-sub").textContent = this.puzzle.title;
     } else {
-      let h = 0; for (let i = 0; i < this.dailyDate.length; i++) h = (h << 5) - h + this.dailyDate.charCodeAt(i);
-      const idx = Math.abs(h) % DAILY.length;
-      this.pz = JSON.parse(JSON.stringify(DAILY[idx]));
-      document.getElementById("hdr-title").textContent = "Daily Puzzle";
-      document.getElementById("hdr-sub").textContent = this.dailyDate;
-      if (this.pz.butterflies) this.pz.butterflies.forEach(b => this.bfMap[`${b.r},${b.c}`] = { ...b, got: false });
+      let h = 0;
+      for (let i = 0; i < this.dailyDate.length; i++) h = (h << 5) - h + this.dailyDate.charCodeAt(i);
+      const idx = Math.abs(h) % DAILY_PUZZLES.length;
+      this.puzzle = JSON.parse(JSON.stringify(DAILY_PUZZLES[idx]));
+      document.getElementById("level-title").textContent = "Daily Challenge";
+      document.getElementById("level-sub").textContent = this.dailyDate;
+
+      if (this.puzzle.butterflies) {
+        this.butterflyQueue = [...this.puzzle.butterflies];
+      }
     }
-    this.renderBoard();
+
+    this.renderCrossword();
     this.renderWheel();
+
+    if (this.mode === "daily") {
+      this.spawnNextButterfly();
+    }
   }
 
-  renderBoard() {
-    const g = document.getElementById("grid"), p = this.pz.grid;
-    g.innerHTML = "";
-    g.style.gridTemplateColumns = `repeat(${p.cols}, 44px)`;
-    g.style.gridTemplateRows = `repeat(${p.rows}, 44px)`;
-    this.cells = {};
-    p.words.forEach(w => {
+  spawnNextButterfly() {
+    if (this.butterflyQueue.length === 0) {
+      this.activeButterfly = null;
+      return;
+    }
+
+    const candidate = this.butterflyQueue.shift();
+    this.activeButterfly = candidate;
+
+    if (this.solvedWords.has(candidate.targetWord)) {
+      return this.spawnNextButterfly();
+    }
+
+    const k = `${candidate.r},${candidate.c}`;
+    const cell = document.getElementById(`tile-${k}`);
+    if (cell && !cell.classList.contains("solved")) {
+      const bfEl = document.createElement("div");
+      bfEl.className = "butterfly-on-tile";
+      bfEl.id = "active-board-bf";
+      bfEl.innerHTML = `<svg viewBox="0 0 32 32">
+        <path d="M16 12 C10 3 1 7 3 18 C5 24 14 22 16 18 C18 22 27 24 29 18 C31 7 22 3 16 12 Z" fill="${candidate.color}"/>
+        <circle cx="16" cy="15" r="2" fill="#ffffff"/>
+      </svg>`;
+      cell.appendChild(bfEl);
+    }
+  }
+
+  renderCrossword() {
+    const gridEl = document.getElementById("grid"), pGrid = this.puzzle.grid;
+    gridEl.innerHTML = "";
+    gridEl.style.gridTemplateColumns = `repeat(${pGrid.cols}, 44px)`;
+    gridEl.style.gridTemplateRows = `repeat(${pGrid.rows}, 44px)`;
+
+    this.gridMap = {};
+    pGrid.words.forEach(w => {
       for (let i = 0; i < w.w.length; i++) {
         const r = w.d === "H" ? w.r : w.r + i, c = w.d === "H" ? w.c + i : w.c;
-        this.cells[`${r},${c}`] = w.w[i];
+        this.gridMap[`${r},${c}`] = w.w[i];
       }
     });
-    for (let r = 0; r < p.rows; r++) {
-      for (let c = 0; c < p.cols; c++) {
-        const k = `${r},${c}`, el = document.createElement("div");
-        el.id = `c-${k}`;
-        if (this.cells[k]) {
-          el.className = "cell empty";
-          if (this.bfMap[k]) {
-            const bf = document.createElement("div");
-            bf.className = "bf-icon"; bf.id = `bf-${k}`;
-            bf.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 12 C10 4 2 8 4 18 C6 24 14 22 16 18 C18 22 26 24 28 18 C30 8 22 4 16 12 Z" fill="${this.bfMap[k].color}"/><circle cx="16" cy="15" r="2" fill="#fff"/></svg>`;
-            el.appendChild(bf);
-          }
-        } else el.className = "cell inactive";
-        g.appendChild(el);
+
+    for (let r = 0; r < pGrid.rows; r++) {
+      for (let c = 0; c < pGrid.cols; c++) {
+        const k = `${r},${c}`, tile = document.createElement("div");
+        tile.id = `tile-${k}`;
+        if (this.gridMap[k]) {
+          tile.className = "tile empty";
+        } else {
+          tile.className = "tile blank";
+        }
+        gridEl.appendChild(tile);
       }
     }
   }
 
   renderWheel() {
-    const nodes = document.getElementById("nodes"), l = this.pz.letters;
-    nodes.innerHTML = "";
-    const cx = 105, cy = 105, rad = 70;
-    l.forEach((char, i) => {
-      const ang = (i * 2 * Math.PI / l.length) - Math.PI / 2;
-      const x = cx + rad * Math.cos(ang), y = cy + rad * Math.sin(ang);
-      const el = document.createElement("div");
-      el.className = "node"; el.id = `n-${i}`; el.textContent = char;
-      el.style.left = `${x}px`; el.style.top = `${y}px`;
-      el.dataset.i = i; el.dataset.ch = char; el.dataset.x = x; el.dataset.y = y;
-      nodes.appendChild(el);
+    const container = document.getElementById("node-container"), letters = this.puzzle.letters;
+    container.innerHTML = "";
+    const cx = 115, cy = 115, radius = 78;
+
+    letters.forEach((char, i) => {
+      const ang = (i * 2 * Math.PI / letters.length) - Math.PI / 2;
+      const x = cx + radius * Math.cos(ang), y = cy + radius * Math.sin(ang);
+      const node = document.createElement("div");
+      node.className = "letter-node";
+      node.id = `node-${i}`;
+      node.textContent = char;
+      node.style.left = `${x}px`;
+      node.style.top = `${y}px`;
+      node.dataset.idx = i;
+      node.dataset.ch = char;
+      node.dataset.x = x;
+      node.dataset.y = y;
+      container.appendChild(node);
     });
-    document.getElementById("svg-lines").innerHTML = "";
+
+    document.getElementById("wheel-lines").innerHTML = "";
   }
 
-  shuffle() {
-    this.pz.letters.sort(() => Math.random() - 0.5);
+  shuffleLetters() {
+    this.puzzle.letters.sort(() => Math.random() - 0.5);
     this.renderWheel();
-    this.toast("Letters shuffled");
+    this.showToast("Letters shuffled");
   }
 
-  hint() {
-    const unrevealed = Object.keys(this.cells).filter(k => !document.getElementById(`c-${k}`).classList.contains("solved"));
-    if (!unrevealed.length) return this.toast("All solved!");
+  giveHint() {
+    const unrevealed = Object.keys(this.gridMap).filter(k => !document.getElementById(`tile-${k}`).classList.contains("solved"));
+    if (!unrevealed.length) return this.showToast("All words solved!");
     const pick = unrevealed[Math.floor(Math.random() * unrevealed.length)];
-    const el = document.getElementById(`c-${pick}`);
-    el.className = "cell solved"; el.textContent = this.cells[pick];
+    const el = document.getElementById(`tile-${pick}`);
+    el.className = "tile solved";
+    el.textContent = this.gridMap[pick];
     sfx.letter(0);
-    this.checkWin();
+    this.checkCompletion();
   }
 
   openBonus() {
-    const l = document.getElementById("bonus-list");
-    l.innerHTML = this.bonusFound.size ? Array.from(this.bonusFound).map(w=>`★ ${w}`).join("<br>") : "None yet";
+    const l = document.getElementById("bonus-words-list");
+    l.innerHTML = this.bonusWordsFound.size ? Array.from(this.bonusWordsFound).map(w => `★ ${w}`).join("<br>") : "None yet";
     document.getElementById("bonus-modal").classList.add("active");
   }
 
-  bindWheel() {
-    const w = document.getElementById("wheel");
-    const onStart = (x, y) => { this.dragging = true; this.selected = []; sfx.init(); this.onMove(x, y); };
-    const onEnd = () => { if (!this.dragging) return; this.dragging = false; this.submit(); };
+  setupWheelGestures() {
+    const wheel = document.getElementById("wheel-plate");
+    const onStart = (x, y) => {
+      this.dragging = true;
+      this.selected = [];
+      sfx.init();
+      this.processPointer(x, y);
+    };
+    const onEnd = () => {
+      if (!this.dragging) return;
+      this.dragging = false;
+      this.submitWord();
+    };
 
-    w.addEventListener("touchstart", e => { e.preventDefault(); onStart(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
-    window.addEventListener("touchmove", e => { if (this.dragging) this.onMove(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+    wheel.addEventListener("touchstart", e => {
+      e.preventDefault();
+      onStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: false });
+
+    window.addEventListener("touchmove", e => {
+      if (this.dragging) this.processPointer(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: false });
+
     window.addEventListener("touchend", onEnd);
     window.addEventListener("touchcancel", onEnd);
 
-    w.addEventListener("mousedown", e => onStart(e.clientX, e.clientY));
-    window.addEventListener("mousemove", e => { if (this.dragging) this.onMove(e.clientX, e.clientY); });
+    wheel.addEventListener("mousedown", e => onStart(e.clientX, e.clientY));
+    window.addEventListener("mousemove", e => { if (this.dragging) this.processPointer(e.clientX, e.clientY); });
     window.addEventListener("mouseup", onEnd);
   }
 
-  onMove(clientX, clientY) {
-    const rect = document.getElementById("wheel").getBoundingClientRect();
+  processPointer(clientX, clientY) {
+    const rect = document.getElementById("wheel-plate").getBoundingClientRect();
     const rx = clientX - rect.left, ry = clientY - rect.top;
-    document.querySelectorAll(".node").forEach(n => {
-      const x = +n.dataset.x, y = +n.dataset.y, idx = n.dataset.i;
-      if (Math.hypot(rx - x, ry - y) < 28) {
-        const has = this.selected.find(s => s.i === idx);
-        if (!has) {
-          n.classList.add("selected");
-          this.selected.push({ i: idx, ch: n.dataset.ch, x, y, el: n });
+
+    document.querySelectorAll(".letter-node").forEach(node => {
+      const x = +node.dataset.x, y = +node.dataset.y, idx = node.dataset.idx;
+      if (Math.hypot(rx - x, ry - y) < 30) {
+        const isAlreadySelected = this.selected.some(s => s.idx === idx);
+
+        if (!isAlreadySelected) {
+          node.classList.add("selected");
+          this.selected.push({ idx: idx, ch: node.dataset.ch, x, y, el: node });
           sfx.letter(this.selected.length - 1);
-        } else if (this.selected.length > 1 && this.selected[this.selected.length - 2].i === idx) {
+          if (navigator.vibrate) navigator.vibrate(10);
+        } else if (this.selected.length > 1 && this.selected[this.selected.length - 2].idx === idx) {
           const popped = this.selected.pop();
           popped.el.classList.remove("selected");
         }
       }
     });
-    this.drawLines(rx, ry);
-    const prev = document.getElementById("preview");
-    if (this.selected.length) { prev.textContent = this.selected.map(s => s.ch).join(""); prev.classList.add("show"); }
-    else prev.classList.remove("show");
+
+    this.drawSwipeLines(rx, ry);
+    const pill = document.getElementById("preview-pill");
+    if (this.selected.length > 0) {
+      pill.textContent = this.selected.map(s => s.ch).join("");
+      pill.classList.add("visible");
+    } else {
+      pill.classList.remove("visible");
+    }
   }
 
-  drawLines(rx, ry) {
-    const svg = document.getElementById("svg-lines");
+  drawSwipeLines(rx, ry) {
+    const svg = document.getElementById("wheel-lines");
     if (!this.selected.length) return svg.innerHTML = "";
     let pts = this.selected.map(s => `${s.x},${s.y}`).join(" ");
-    svg.innerHTML = `<polyline points="${pts}" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><line x1="${this.selected[this.selected.length-1].x}" y1="${this.selected[this.selected.length-1].y}" x2="${rx}" y2="${ry}" stroke="rgba(56,189,248,0.5)" stroke-width="5" stroke-linecap="round"/>`;
+    svg.innerHTML = `
+      <polyline points="${pts}" fill="none" stroke="rgba(56, 189, 248, 0.85)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="${this.selected[this.selected.length-1].x}" y1="${this.selected[this.selected.length-1].y}" x2="${rx}" y2="${ry}" stroke="rgba(56, 189, 248, 0.5)" stroke-width="5" stroke-linecap="round"/>
+    `;
   }
 
-  submit() {
+  submitWord() {
     const word = this.selected.map(s => s.ch).join("");
-    document.querySelectorAll(".node").forEach(n => n.classList.remove("selected"));
-    document.getElementById("svg-lines").innerHTML = "";
-    document.getElementById("preview").classList.remove("show");
+    document.querySelectorAll(".letter-node").forEach(n => n.classList.remove("selected"));
+    document.getElementById("wheel-lines").innerHTML = "";
+    document.getElementById("preview-pill").classList.remove("visible");
     if (word.length < 2) return;
 
-    const target = this.pz.grid.words.find(w => w.w === word);
+    const target = this.puzzle.grid.words.find(w => w.w === word);
     if (target) {
-      if (this.solved.has(word)) { this.toast("Already found!"); sfx.error(); }
-      else {
-        this.solved.add(word);
-        this.reveal(target);
-        sfx.win();
-        this.checkWin();
+      if (this.solvedWords.has(word)) {
+        this.showToast("Already solved!");
+        sfx.errorTone();
+      } else {
+        this.solvedWords.add(word);
+        this.revealWord(target);
+        sfx.wordSuccess();
+        this.checkCompletion();
       }
       return;
     }
 
-    if (this.pz.bonus && this.pz.bonus.includes(word)) {
-      if (this.bonusFound.has(word)) this.toast("Bonus already found!");
-      else { this.bonusFound.add(word); this.toast(`Bonus: ${word}! ✨`); sfx.win(); }
+    if (this.puzzle.bonus && this.puzzle.bonus.includes(word)) {
+      if (this.bonusWordsFound.has(word)) {
+        this.showToast("Bonus word already found!");
+      } else {
+        this.bonusWordsFound.add(word);
+        this.showToast(`Bonus Word: ${word}! ✨`);
+        sfx.wordSuccess();
+      }
       return;
     }
 
-    sfx.error();
-    const p = document.getElementById("preview");
-    p.textContent = word; p.classList.add("show", "shake");
-    setTimeout(() => p.classList.remove("show", "shake"), 450);
+    sfx.errorTone();
+    const pill = document.getElementById("preview-pill");
+    pill.textContent = word;
+    pill.classList.add("visible", "shake");
+    setTimeout(() => pill.classList.remove("visible", "shake"), 450);
   }
 
-  reveal(w) {
-    for (let i = 0; i < w.w.length; i++) {
-      const r = w.d === "H" ? w.r : w.r + i, c = w.d === "H" ? w.c + i : w.c, k = `${r},${c}`;
-      const el = document.getElementById(`c-${k}`);
-      if (el) {
-        el.className = "cell solved"; el.textContent = w.w[i];
-        if (this.bfMap[k] && !this.bfMap[k].got) this.collectBf(k, el);
+  revealWord(target) {
+    let butterflyCaught = false;
+
+    for (let i = 0; i < target.w.length; i++) {
+      const r = target.d === "H" ? target.r : target.r + i;
+      const c = target.d === "H" ? target.c + i : target.c;
+      const k = `${r},${c}`;
+      const cell = document.getElementById(`tile-${k}`);
+      if (cell) {
+        cell.className = "tile solved";
+        cell.textContent = target.w[i];
+
+        if (this.activeButterfly && this.activeButterfly.targetWord === target.w) {
+          butterflyCaught = true;
+        }
       }
+    }
+
+    if (butterflyCaught) {
+      this.collectActiveButterfly();
     }
   }
 
-  collectBf(k, cell) {
-    const bf = this.bfMap[k]; bf.got = true;
-    const icon = document.getElementById(`bf-${k}`);
-    if (icon) {
-      const r1 = cell.getBoundingClientRect(), r2 = document.getElementById("btn-sanctuary").getBoundingClientRect();
+  collectActiveButterfly() {
+    const bf = this.activeButterfly;
+    const bfEl = document.getElementById("active-board-bf");
+    const targetBadge = document.getElementById("btn-sanctuary").getBoundingClientRect();
+
+    if (bfEl) {
+      const r1 = bfEl.getBoundingClientRect();
       const fly = document.createElement("div");
-      fly.className = "flying-bf"; fly.style.left = `${r1.left+8}px`; fly.style.top = `${r1.top+8}px`;
-      fly.innerHTML = icon.innerHTML;
+      fly.className = "flying-butterfly";
+      fly.style.left = `${r1.left}px`;
+      fly.style.top = `${r1.top}px`;
+      fly.innerHTML = bfEl.innerHTML;
       document.body.appendChild(fly);
-      icon.remove(); sfx.flutter();
-      requestAnimationFrame(() => { fly.style.left = `${r2.left+10}px`; fly.style.top = `${r2.top+6}px`; fly.style.transform = "scale(1.3) rotate(20deg)"; });
+      bfEl.remove();
+
+      sfx.butterflyChime();
+      requestAnimationFrame(() => {
+        fly.style.left = `${targetBadge.left + 12}px`;
+        fly.style.top = `${targetBadge.top + 6}px`;
+        fly.style.transform = "scale(1.4) rotate(20deg)";
+      });
+
       setTimeout(() => {
         fly.remove();
         this.data.bf = (this.data.bf || 0) + 1;
         this.data.sp[bf.species] = (this.data.sp[bf.species] || 0) + 1;
         this.save();
-        this.updateBfBadge();
-        this.toast(`Captured ${bf.species}! 🦋`);
-      }, 850);
+        this.updateBadge();
+        const jar = document.querySelector(".butterfly-jar");
+        jar.classList.add("pulse");
+        setTimeout(() => jar.classList.remove("pulse"), 350);
+        this.showToast(`Caught ${bf.species}! 🦋`);
+
+        setTimeout(() => this.spawnNextButterfly(), 600);
+      }, 900);
     }
   }
 
-  checkWin() {
-    if (this.solved.size >= this.pz.grid.words.length) {
+  checkCompletion() {
+    if (this.solvedWords.size >= this.puzzle.grid.words.length) {
       setTimeout(() => {
         const m = document.getElementById("win-modal");
         if (this.mode === "levels") {
-          this.data.lvl = (this.data.lvl || 0) + 1; this.save();
+          this.data.lvl = (this.data.lvl || 0) + 1;
+          this.save();
           document.getElementById("win-title").textContent = "Level Complete!";
-          document.getElementById("win-sub").textContent = `Solved all words for Level ${this.data.lvl}!`;
-          document.getElementById("btn-next").textContent = "Next Level";
+          document.getElementById("win-desc").textContent = `Splendid solving for Level ${this.data.lvl}!`;
+          document.getElementById("btn-win-next").textContent = "Next Level";
         } else {
-          this.data.days[this.dailyDate] = true; this.save();
-          document.getElementById("win-title").textContent = "Daily Complete!";
-          document.getElementById("win-sub").textContent = `Butterflies added to your sanctuary!`;
-          document.getElementById("btn-next").textContent = "View Sanctuary";
+          this.data.days[this.dailyDate] = true;
+          this.save();
+          document.getElementById("win-title").textContent = "Daily Challenge Solved!";
+          document.getElementById("win-desc").textContent = `All daily butterflies transferred to your sanctuary!`;
+          document.getElementById("btn-win-next").textContent = "View Sanctuary";
         }
         m.classList.add("active");
-      }, 500);
+      }, 550);
     }
   }
 
-  toast(m) {
+  showToast(msg) {
     const t = document.getElementById("toast");
-    t.textContent = m; t.classList.add("show");
-    setTimeout(() => t.classList.remove("show"), 1500);
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 1600);
   }
 
   renderSanctuary() {
-    const g = document.getElementById("garden"), sl = document.getElementById("species-list");
-    g.innerHTML = ""; sl.innerHTML = "";
+    const meadow = document.getElementById("sanctuary-meadow");
+    const collection = document.getElementById("species-collection");
+    meadow.innerHTML = "";
+    collection.innerHTML = "";
+
     const total = this.data.bf || 0;
     for (let i = 0; i < Math.min(total, 12); i++) {
       const b = document.createElement("div");
-      b.className = "g-bf";
-      b.style.left = `${15 + Math.random() * 70}%`; b.style.top = `${20 + Math.random() * 55}%`;
+      b.className = "flapping-butterfly";
+      b.style.left = `${15 + Math.random() * 70}%`;
+      b.style.top = `${20 + Math.random() * 55}%`;
       b.style.animationDelay = `${Math.random() * 3}s`;
-      const sp = Object.keys(SPECIES)[i % Object.keys(SPECIES).length];
-      b.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 12 C10 4 2 8 4 18 C6 24 14 22 16 18 C18 22 26 24 28 18 C30 8 22 4 16 12 Z" fill="${SPECIES[sp]}"/><circle cx="16" cy="15" r="2" fill="#fff"/></svg>`;
-      g.appendChild(b);
+      const`;
+      b.style.animationDelay = `${Math.random() * 3}s`;
+      const speciesKeys = Object.keys(SPECIES_META);
+      const sp = speciesKeys[i % speciesKeys.length];
+      b.innerHTML = `<svg viewBox="0 0 32 32">
+        <path d="M16 12 C10 3 1 7 3 18 C5 24 14 22 16 18 C18 22 27 24 29 18 C31 7 22 3 16 12 Z" fill="${SPECIES_META[sp].color}"/>
+        <circle cx="16" cy="15" r="2" fill="#ffffff"/>
+      </svg>`;
+      meadow.appendChild(b);
     }
-    if (!total) g.innerHTML = '<div style="text-align:center; padding-top:70px; color:#cbd5e1; font-size:0.85rem;">Solve daily puzzles to attract butterflies!</div>';
-    Object.keys(SPECIES).forEach(k => {
-      const count = (this.data.sp && this.data.sp[k]) || 0;
-      const el = document.createElement("div");
-      el.className = "sp-card";
-      el.innerHTML = `<div style="width:28px; height:28px;"><svg viewBox="0 0 32 32"><path d="M16 12 C10 4 2 8 4 18 C6 24 14 22 16 18 C18 22 26 24 28 18 C30 8 22 4 16 12 Z" fill="${count?SPECIES[k]:'#64748b'}"/></svg></div><div><div style="font-size:0.85rem; font-weight:700;">${k}</div><div style="font-size:0.75rem; color:${count?'#38bdf8':'#94a3b8'};">${count?`${count} Captured`:'Undiscovered'}</div></div>`;
-      sl.appendChild(el);
+
+    if (!total) {
+      meadow.innerHTML = '<div style="text-align:center; padding-top:80px; color:#f8fafc; font-size:0.9rem; font-weight:700;">Solve Daily Challenges to attract butterflies to your meadow!</div>';
+    }
+
+    Object.keys(SPECIES_META).forEach(name => {
+      const count = (this.data.sp && this.data.sp[name]) || 0;
+      const card = document.createElement("div");
+      card.className = "species-tile";
+      card.innerHTML = `
+        <div style="width:34px; height:34px;">
+          <svg viewBox="0 0 32 32">
+            <path d="M16 12 C10 3 1 7 3 18 C5 24 14 22 16 18 C18 22 27 24 29 18 C31 7 22 3 16 12 Z" fill="${count ? SPECIES_META[name].color : '#64748b'}"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:0.9rem; font-weight:800;">${name}</div>
+          <div style="font-size:0.75rem; color:${count ? '#38bdf8' : '#94a3b8'};">
+            ${count ? `${count} Captured` : 'Undiscovered'}
+          </div>
+        </div>
+      `;
+      collection.appendChild(card);
     });
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => new Game());
+window.addEventListener("DOMContentLoaded", () => new WordGame());
 </script>
 </body>
 </html>
