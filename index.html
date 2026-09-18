@@ -16,7 +16,7 @@
       --tile-border: rgba(255, 255, 255, 0.45);
       --tile-solved: #ffffff;
       --tile-text: #0f2330;
-      --wheel-bg: rgba(10, 25, 35, 0.72);
+      --wheel-bg: rgba(10, 25, 35, 0.75);
       --node-bg: #ffffff;
       --node-text: #0f2330;
       --node-active: #38bdf8;
@@ -57,7 +57,7 @@
     .scenic-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(13, 27, 34, 0.4) 0%, rgba(9, 20, 26, 0.85) 100%);
+      background: radial-gradient(circle at 50% 30%, rgba(13, 27, 34, 0.4) 0%, rgba(9, 20, 26, 0.88) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -81,18 +81,9 @@
       100% { transform: translate(-20px, -80px) scale(0.9); opacity: 0.4; }
     }
 
-    header {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px 6px 16px;
-    }
-
     .btn-circle {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(10px);
@@ -130,48 +121,197 @@
 
     .butterfly-jar.pulse { transform: scale(1.3); }
 
-    .header-center { text-align: center; }
-    .level-badge { font-size: 1.1rem; font-weight: 800; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
-    .sub-badge { font-size: 0.75rem; font-weight: 700; color: var(--gold-light); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
-
-    .tab-bar {
+    /* SCREEN 1: HOME SCREEN */
+    #home-screen {
       position: relative;
       z-index: 10;
-      display: flex;
-      padding: 6px 16px;
-      gap: 8px;
-    }
-
-    .tab-item {
       flex: 1;
-      padding: 8px 4px;
-      background: rgba(15, 30, 40, 0.45);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px;
+      overflow-y: auto;
+    }
+
+    .home-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .home-brand {
+      text-align: center;
+      margin: 10px 0 24px 0;
+    }
+
+    .brand-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 0%, #fef08a 60%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .brand-sub {
       font-size: 0.85rem;
+      color: #cbd5e1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      margin-top: 4px;
     }
 
-    .tab-item.active {
-      background: rgba(255, 255, 255, 0.25);
+    .hero-play-card {
+      background: rgba(15, 30, 42, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 22px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+    }
+
+    .hero-level-title {
+      font-size: 1.5rem;
+      font-weight: 900;
       color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      margin-bottom: 4px;
     }
 
+    .hero-level-sub {
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .play-btn-big {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #ffffff;
+      border: none;
+      padding: 15px 44px;
+      border-radius: 35px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(2, 132, 199, 0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .play-btn-big:active { transform: scale(0.95); }
+
+    .quick-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .quick-card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .quick-card:active { transform: scale(0.96); background: rgba(255,255,255,0.18); }
+    .quick-card-icon { font-size: 1.8rem; margin-bottom: 6px; }
+    .quick-card-title { font-size: 0.95rem; font-weight: 800; color: #ffffff; }
+    .quick-card-sub { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .level-select-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .level-node-card {
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      position: relative;
+    }
+
+    .level-node-card.completed {
+      background: rgba(16, 185, 129, 0.28);
+      border-color: #10b981;
+      color: #a7f3d0;
+    }
+
+    .level-node-card.current {
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+      color: #ffffff;
+    }
+
+    .level-node-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .level-node-card:active:not(.locked) { transform: scale(0.92); }
+
+    /* SCREEN 2: GAMEPLAY SCREEN */
     #game-screen {
       position: relative;
       z-index: 5;
       flex: 1;
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: space-between;
       padding-bottom: 12px;
     }
+
+    .game-header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px 6px 16px;
+    }
+
+    .header-center { text-align: center; }
+    .level-badge { font-size: 1.15rem; font-weight: 800; color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
+    .sub-badge { font-size: 0.75rem; font-weight: 700; color: var(--gold-light); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
 
     #board-area {
       flex: 1;
@@ -296,8 +436,8 @@
     }
 
     .side-wheel-btn {
-      width: 50px;
-      height: 50px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(12px);
@@ -364,77 +504,10 @@
       box-shadow: 0 0 22px rgba(56, 189, 248, 0.9), 0 6px 16px rgba(0,0,0,0.4);
     }
 
-    #toast {
-      position: absolute;
-      top: 64px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-15px);
-      background: rgba(10, 25, 35, 0.92);
-      backdrop-filter: blur(12px);
-      padding: 8px 20px;
-      border-radius: 25px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #ffffff;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 90;
-      white-space: nowrap;
-    }
-
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    .modal-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(9, 20, 26, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      z-index: 100;
-      text-align: center;
-    }
-
-    .modal-backdrop.active { display: flex; }
-
-    .modal-box {
-      background: rgba(17, 34, 46, 0.95);
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      border-radius: 20px;
-      padding: 24px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    }
-
-    .modal-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
-    .modal-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
-
-    .primary-btn {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      color: #ffffff;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 30px;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
-      transition: transform 0.15s ease;
-    }
-
-    .primary-btn:active { transform: scale(0.95); }
-
+    /* SCREEN 3: SANCTUARY SCREEN */
     #sanctuary-screen {
       position: relative;
-      z-index: 5;
+      z-index: 10;
       flex: 1;
       display: none;
       flex-direction: column;
@@ -442,11 +515,16 @@
       overflow-y: auto;
     }
 
-    #sanctuary-screen.active { display: flex; }
+    .sanctuary-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
 
     .sanctuary-meadow {
-      height: 180px;
-      border-radius: 18px;
+      height: 190px;
+      border-radius: 20px;
       background: linear-gradient(180deg, rgba(2, 132, 199, 0.35) 0%, rgba(5, 150, 105, 0.45) 80%, rgba(4, 120, 87, 0.6) 100%);
       border: 1.5px solid rgba(255, 255, 255, 0.25);
       position: relative;
@@ -486,6 +564,89 @@
       align-items: center;
       gap: 10px;
     }
+
+    /* TOAST & MODALS */
+    #toast {
+      position: absolute;
+      top: 64px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-15px);
+      background: rgba(10, 25, 35, 0.94);
+      backdrop-filter: blur(14px);
+      padding: 9px 22px;
+      border-radius: 25px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #ffffff;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 90;
+      white-space: nowrap;
+    }
+
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(9, 20, 26, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 100;
+      text-align: center;
+    }
+
+    .modal-backdrop.active { display: flex; }
+
+    .modal-box {
+      background: rgba(17, 34, 46, 0.96);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 22px;
+      padding: 24px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.65);
+    }
+
+    .modal-title { font-size: 1.45rem; font-weight: 900; margin-bottom: 6px; }
+    .modal-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #ffffff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+      transition: transform 0.15s ease;
+    }
+
+    .primary-btn:active { transform: scale(0.95); }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .secondary-btn:active { transform: scale(0.95); }
 
     .cal-grid {
       display: grid;
@@ -531,33 +692,71 @@
   <div class="firefly" style="top: 70%; left: 30%; animation-delay: 4s;"></div>
   <div class="firefly" style="top: 18%; left: 65%; animation-delay: 1s;"></div>
 
-  <header>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <button class="btn-circle" id="btn-sound" title="Toggle Sound">🔊</button>
-      <div class="butterfly-jar" id="btn-sanctuary" title="Butterfly Sanctuary">
-        <span>🦋</span>
-        <span id="bf-count">0</span>
-      </div>
-    </div>
-    <div class="header-center">
-      <div class="level-badge" id="level-title">Level 1</div>
-      <div class="sub-badge" id="level-sub">Garden 1</div>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <button class="btn-circle" id="btn-bonus" title="Bonus Words">📖</button>
-      <button class="btn-circle" id="btn-restart" title="Restart">↺</button>
-    </div>
-  </header>
-
-  <div class="tab-bar">
-    <button class="tab-item active" id="tab-lvl">🌟 Levels</button>
-    <button class="tab-item" id="tab-day">🦋 Daily Puzzle</button>
-    <button class="tab-item" id="tab-snc">🌸 Sanctuary</button>
-  </div>
-
   <div id="toast">Already found!</div>
 
+  <!-- SCREEN 1: HOME PAGE -->
+  <div id="home-screen">
+    <div class="home-header">
+      <button class="btn-circle" id="home-sound-btn" title="Toggle Sound">🔊</button>
+      <div class="butterfly-jar" id="home-sanctuary-btn" title="Sanctuary">
+        <span>🦋</span>
+        <span id="home-bf-count">0</span>
+      </div>
+    </div>
+
+    <div class="home-brand">
+      <div class="brand-title">🌿 WordGarden</div>
+      <div class="brand-sub">Ad-Free Nature Word Puzzles</div>
+    </div>
+
+    <div class="hero-play-card">
+      <div class="hero-level-title" id="home-hero-level">Level 1</div>
+      <div class="hero-level-sub" id="home-hero-chapter">Garden 1</div>
+      <button class="play-btn-big" id="home-play-btn">
+        <span>▶</span>
+        <span id="home-play-text">PLAY LEVEL 1</span>
+      </button>
+    </div>
+
+    <div class="quick-cards-grid">
+      <div class="quick-card" id="card-daily">
+        <div class="quick-card-icon">🦋</div>
+        <div class="quick-card-title">Daily Challenge</div>
+        <div class="quick-card-sub" id="card-daily-date">Today's Puzzle</div>
+      </div>
+      <div class="quick-card" id="card-sanctuary">
+        <div class="quick-card-icon">🌸</div>
+        <div class="quick-card-title">Sanctuary</div>
+        <div class="quick-card-sub">Butterfly Meadow</div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span>🗺️</span>
+      <span>Chapters & Levels</span>
+    </div>
+
+    <div class="level-select-grid" id="level-select-grid"></div>
+  </div>
+
+  <!-- SCREEN 2: GAMEPLAY SCREEN -->
   <div id="game-screen">
+    <div class="game-header">
+      <button class="btn-circle" id="game-home-btn" title="Back to Home">🏠</button>
+      <div class="header-center">
+        <div class="level-badge" id="level-title">Level 1</div>
+        <div class="sub-badge" id="level-sub">Garden 1</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="btn-circle" id="btn-bonus" title="Bonus Words">📖</button>
+        <button class="btn-circle" id="btn-restart" title="Restart">↺</button>
+        <div class="butterfly-jar" id="game-bf-jar" title="Sanctuary">
+          <span>🦋</span>
+          <span id="game-bf-count">0</span>
+        </div>
+      </div>
+    </div>
+
     <div id="board-area">
       <div id="grid"></div>
     </div>
@@ -584,26 +783,33 @@
     </div>
   </div>
 
+  <!-- SCREEN 3: BUTTERFLY SANCTUARY -->
   <div id="sanctuary-screen">
-    <h2 style="text-align:center; font-size:1.4rem; font-weight:900; margin-bottom:4px;">🌸 Butterfly Sanctuary</h2>
-    <p style="text-align:center; font-size:0.85rem; color:#cbd5e1; margin-bottom:14px;">Tranquil garden for butterflies caught in daily puzzles</p>
+    <div class="sanctuary-header">
+      <button class="btn-circle" id="sanctuary-back-btn" title="Back to Home">🏠</button>
+      <h2 style="font-size:1.3rem; font-weight:900;">🌸 Butterfly Sanctuary</h2>
+      <div style="width:42px;"></div>
+    </div>
+    <p style="text-align:center; font-size:0.85rem; color:#cbd5e1; margin-bottom:14px;">Tranquil meadow for butterflies caught during daily puzzles</p>
     <div class="sanctuary-meadow" id="sanctuary-meadow"></div>
     <div class="species-collection" id="species-collection"></div>
   </div>
 
+  <!-- MODAL: DAILY CALENDAR -->
   <div class="modal-backdrop" id="cal-modal">
     <div class="modal-box">
       <div class="modal-title">📅 Daily Challenges</div>
-      <div class="modal-desc">Pick any date to play and collect butterflies (1 active at a time):</div>
+      <div class="modal-desc">Pick any date to collect butterflies:</div>
       <div class="cal-grid" id="cal-grid"></div>
       <button class="primary-btn" id="btn-close-cal">Close</button>
     </div>
   </div>
 
+  <!-- MODAL: BONUS WORDS -->
   <div class="modal-backdrop" id="bonus-modal">
     <div class="modal-box">
       <div class="modal-title">📖 Bonus Words</div>
-      <div class="modal-desc">Extra words you found not in the main puzzle:</div>
+      <div class="modal-desc">Valid dictionary words found outside the main puzzle:</div>
       <div id="bonus-words-list" style="margin:14px 0; max-height:160px; overflow-y:auto; color:#38bdf8; font-weight:800; font-size:1.1rem; line-height:1.8;">
         None yet
       </div>
@@ -611,19 +817,23 @@
     </div>
   </div>
 
+  <!-- MODAL: LEVEL WIN -->
   <div class="modal-backdrop" id="win-modal">
     <div class="modal-box">
       <div style="font-size:3.5rem; margin-bottom:8px;">🎉</div>
       <div class="modal-title" id="win-title">Puzzle Complete!</div>
       <div class="modal-desc" id="win-desc">Spectacular job finding every word!</div>
-      <button class="primary-btn" id="btn-win-next">Next Puzzle</button>
+      <div style="display:flex; justify-content:center; gap:12px; margin-top:14px;">
+        <button class="secondary-btn" id="btn-win-home">🏠 Home</button>
+        <button class="primary-btn" id="btn-win-next">Next Level ▶</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "LATE", "r": 1, "c": 0, "d": "H"}, {"w": "NEAT", "r": 0, "c": 3, "d": "V"}, {"w": "TAP", "r": 3, "c": 3, "d": "H"}, {"w": "TEA", "r": 0, "c": 5, "d": "V"}]}, "dict": ["ALE", "ANT", "APE", "APT", "ATE", "EAT", "LANE", "LAP", "LATE", "LEAN", "LEAP", "LEPT", "LET", "NAP", "NEAT", "NET", "PAL", "PALE", "PAN", "PANEL", "PAT", "PEAT", "PELT", "PEN", "PENT", "PET", "PLAN", "PLANE", "PLANET", "PLANT", "PLAT", "PLEA", "TALE", "TAN", "TAP", "TAPE", "TEA", "TEAL", "TEN"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "VILE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 2, "d": "H"}, {"w": "SIR", "r": 0, "c": 0, "d": "V"}]}, "dict": ["EVIL", "IRE", "LIE", "LIES", "LIVE", "LIVER", "RILE", "RISE", "RIVE", "SILVER", "SIR", "SIRE", "SLIVER", "VEIL", "VIE", "VILE", "VIS"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"rows": 4, "cols": 6, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "TALE", "r": 0, "c": 3, "d": "V"}, {"w": "CASE", "r": 0, "c": 0, "d": "V"}, {"w": "ATE", "r": 1, "c": 3, "d": "H"}, {"w": "SET", "r": 2, "c": 0, "d": "H"}]}, "dict": ["ACE", "ACT", "ACTS", "ALE", "ATE", "CASE", "CASTLE", "CAT", "CATS", "CLEAT", "EAST", "EAT", "LAST", "LATE", "LET", "SALE", "SALT", "SAT", "SCALE", "SEAL", "SEAT", "SET", "SLATE", "STALE", "TALE", "TEA", "TEAL"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "LOWER", "r": 0, "c": 1, "d": "V"}, {"w": "WORE", "r": 2, "c": 1, "d": "H"}, {"w": "ROW", "r": 4, "c": 1, "d": "H"}, {"w": "FOR", "r": 0, "c": 0, "d": "V"}]}, "dict": ["FEW", "FLOW", "FLOWER", "FOR", "FORE", "FOWL", "FRO", "LORE", "LOW", "LOWER", "ORE", "OWL", "REF", "ROE", "ROLE", "ROW", "WOE", "WOLF", "WORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"rows": 4, "cols": 7, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "TIRE", "r": 0, "c": 3, "d": "V"}, {"w": "RENT", "r": 2, "c": 3, "d": "H"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "NET", "r": 0, "c": 2, "d": "V"}]}, "dict": ["INTER", "IRE", "NET", "NEW", "RENT", "RITE", "TEN", "TIER", "TIN", "TIRE", "TWIN", "TWINE", "WET", "WIN", "WINE", "WINTER", "WIRE", "WIT", "WRITE"]}];
-const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"rows": 4, "cols": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 0, "c": 3, "d": "V"}, {"w": "BET", "r": 0, "c": 0, "d": "V"}, {"w": "RUB", "r": 0, "c": 5, "d": "V"}]}, "dict": ["BET", "BRUT", "BUT", "BUTE", "BUTTER", "RUB", "RUBE", "RUE", "TRUE", "TUB", "TUBE", "UTTER"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 3, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "TRUE", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"rows": 6, "cols": 7, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "RED", "r": 5, "c": 3, "d": "H"}]}, "dict": ["AGE", "AND", "ARE", "DANGER", "DARE", "DEAN", "DEN", "EAR", "EARN", "END", "ERA", "GARDEN", "GEAR", "GRADE", "NEAR", "RAG", "RANG", "RANGED", "READ", "RED"], "butterflies": [{"targetWord": "GARDEN", "r": 0, "c": 1, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "DANGER", "r": 3, "c": 3, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "NEAR", "r": 2, "c": 5, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 2, "d": "H"}, {"w": "PIN", "r": 0, "c": 1, "d": "V"}, {"w": "SIN", "r": 0, "c": 0, "d": "V"}]}, "dict": ["GIN", "GRIP", "NIP", "PIG", "PIN", "PING", "PRIG", "RINGS", "RIP", "SIGN", "SIN", "SING", "SIR", "SNIP", "SPIN", "SPRING"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 4, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "GRIP", "r": 3, "c": 4, "species": "Monarch", "color": "#f97316"}, {"targetWord": "RINGS", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
+const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "NEAT", "r": 3, "c": 0, "d": "H"}, {"w": "TAP", "r": 3, "c": 3, "d": "V"}, {"w": "TEA", "r": 0, "c": 5, "d": "V"}]}, "dict": ["ALE", "ALP", "ALT", "ANE", "ANT", "ANTE", "APE", "APT", "ATE", "ATP", "EAT", "ELAN", "ENL", "EPA", "ETA", "ETNA", "LAN", "LANE", "LAP", "LAT", "LATE", "LEA", "LEAN", "LEAP", "LEAPT", "LEN", "LENA", "LENT", "LEPTA", "LET", "LETA", "LPN", "NAE", "NAP", "NAPE", "NAT", "NATE", "NATL", "NEAL", "NEAP", "NEAT", "NEPAL", "NET", "PAL", "PALE", "PAN", "PANE", "PANEL", "PANT", "PAT", "PATE", "PATEL", "PEA", "PEAL", "PEAN", "PEAT", "PELT", "PEN", "PENA", "PENAL", "PENT", "PET", "PETAL", "PLAN", "PLANE", "PLANET", "PLANT", "PLAT", "PLATE", "PLATEN", "PLEA", "PLEAT", "PLENA", "PTA", "TAEL", "TALE", "TAN", "TAP", "TAPE", "TEA", "TEAL", "TEL", "TEN"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "VEIL", "r": 2, "c": 2, "d": "H"}, {"w": "SLIVER", "r": 0, "c": 0, "d": "V"}]}, "dict": ["ELS", "ERIS", "EVIL", "IRE", "ISLE", "LEI", "LEIS", "LEV", "LEVI", "LEVIS", "LEVR", "LIE", "LIER", "LIES", "LIRE", "LIVE", "LIVER", "LIVERS", "LIVES", "REI", "RES", "REV", "REVS", "RIEL", "RILE", "RILES", "RISE", "RIVE", "RIVES", "SER", "SILVER", "SIR", "SIRE", "SLIER", "SLIVE", "SLIVER", "VEIL", "VEILS", "VEILER", "VIE", "VIER", "VIERS", "VIES", "VILE", "VILER", "VIS"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "LAST", "r": 0, "c": 4, "d": "V"}, {"w": "EAST", "r": 2, "c": 2, "d": "H"}, {"w": "SEAL", "r": 2, "c": 4, "d": "V"}]}, "dict": ["ACE", "ACES", "ACT", "ACTS", "ALE", "ALEC", "ALES", "ALT", "ALTS", "ATE", "ATES", "CASE", "CAST", "CASTE", "CASTLE", "CAT", "CATS", "CELT", "CELTS", "CLEAT", "CLEATS", "EAST", "EAT", "EATS", "ELAN", "ELS", "ETA", "ETAS", "LAC", "LACE", "LACES", "LACS", "LAST", "LATE", "LEA", "LEAS", "LEAST", "LEST", "LET", "LETS", "SAC", "SALE", "SALT", "SATE", "SAT", "SCAT", "SEAL", "SEAT", "SECT", "SET", "SETA", "SLAT", "SLATE", "STALE", "STEL", "TAE", "TAEL", "TAELS", "TALE", "TALES", "TEA", "TEAL", "TEALS", "TEAS", "TEL", "TELA", "TELS", "TESA"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "FOWL", "r": 0, "c": 0, "d": "V"}, {"w": "WOLF", "r": 2, "c": 0, "d": "H"}, {"w": "FOR", "r": 0, "c": 0, "d": "V"}]}, "dict": ["ELF", "ELM", "EORL", "FEW", "FLEW", "FLOE", "FLOW", "FLOWER", "FOE", "FOR", "FORE", "FOWL", "FOWLER", "FRO", "FROW", "LEO", "LORE", "LOW", "LOWER", "OE", "OER", "OLE", "ORE", "OWE", "OWL", "REF", "REFOWL", "ROE", "ROLE", "ROLF", "ROW", "WEF", "WOE", "WOLF", "WOLFER", "WORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "WIN", "r": 0, "c": 0, "d": "V"}, {"w": "TWIN", "r": 0, "c": 3, "d": "V"}]}, "dict": ["INTER", "IRE", "NET", "NEW", "NEWT", "NIL", "NIT", "NITE", "REI", "RENT", "REW", "RIN", "RITE", "TEN", "TIER", "TIN", "TINE", "TIRE", "TREW", "TWIN", "TWINE", "TWINER", "WEN", "WENT", "WET", "WIN", "WINE", "WINER", "WINTER", "WIRE", "WIT", "WITE", "WREN", "WRIT", "WRITE"]}, {"id": 6, "title": "Breeze 6", "letters": ["S", "P", "R", "I", "N", "G"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "SIN", "r": 0, "c": 0, "d": "V"}, {"w": "GRIP", "r": 0, "c": 5, "d": "V"}, {"w": "SPIN", "r": 0, "c": 0, "d": "V"}]}, "dict": ["GIN", "GINS", "GIP", "GIRN", "GRIP", "GRIPS", "INS", "NIP", "NIPS", "PIG", "PIGS", "PIN", "PING", "PINGS", "PINS", "PIRN", "PIRNS", "PRIG", "PRIGS", "PSI", "RIG", "RIGS", "RIN", "RING", "RINGS", "RINS", "RIP", "RIPS", "SIGN", "SIN", "SING", "SIP", "SIR", "SNIP", "SPIN", "SPRIG", "SPRING"]}, {"id": 7, "title": "Grove 7", "letters": ["G", "A", "R", "D", "E", "N"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "DANGER", "r": 0, "c": 0, "d": "H"}, {"w": "GARDEN", "r": 0, "c": 3, "d": "V"}, {"w": "DARE", "r": 0, "c": 0, "d": "V"}, {"w": "DEN", "r": 0, "c": 0, "d": "V"}]}, "dict": ["AGE", "AGED", "AGER", "AND", "ANE", "ANGER", "ARE", "DAG", "DANGER", "DARE", "DARN", "DEAN", "DEAR", "DEN", "DRAVE", "DREG", "EAR", "EARN", "EGAD", "END", "ERA", "ENG", "ERG", "GAD", "GAE", "GANE", "GARDEN", "GEAR", "GED", "GNAR", "GRAD", "GRADE", "GRAN", "GRAND", "NAG", "NARE", "NEAR", "RAD", "RAG", "RAGE", "RAGED", "RAN", "RAND", "RANG", "RANGE", "RANGED", "READ", "RED", "REG", "REND"]}, {"id": 8, "title": "Orchard 8", "letters": ["B", "U", "T", "T", "E", "R"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TUBE", "r": 0, "c": 2, "d": "V"}, {"w": "BET", "r": 0, "c": 0, "d": "V"}, {"w": "TUB", "r": 0, "c": 3, "d": "V"}]}, "dict": ["BER", "BET", "BRU", "BRUT", "BRUTE", "BUR", "BURET", "BURT", "BUT", "BUTE", "BUTT", "BUTTER", "REB", "REBUT", "RET", "RUB", "RUBE", "RUE", "RUT", "TET", "TRUE", "TUB", "TUBE", "TUBER", "TUR", "TURB", "TUT", "URE", "UTTER"]}];
+const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TUBE", "r": 0, "c": 2, "d": "V"}, {"w": "BET", "r": 0, "c": 0, "d": "V"}, {"w": "TUB", "r": 0, "c": 3, "d": "V"}]}, "dict": ["BER", "BET", "BRU", "BRUT", "BRUTE", "BUR", "BURET", "BURT", "BUT", "BUTE", "BUTT", "BUTTER", "REB", "REBUT", "RET", "RUB", "RUBE", "RUE", "RUT", "TET", "TRUE", "TUB", "TUBE", "TUBER", "TUR", "TURB", "TUT", "URE", "UTTER"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 2, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 0, "c": 2, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "BET", "r": 0, "c": 0, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "DANGER", "r": 0, "c": 0, "d": "H"}, {"w": "GARDEN", "r": 0, "c": 3, "d": "V"}, {"w": "DARE", "r": 0, "c": 0, "d": "V"}, {"w": "DEN", "r": 0, "c": 0, "d": "V"}]}, "dict": ["AGE", "AGED", "AGER", "AND", "ANE", "ANGER", "ARE", "DAG", "DANGER", "DARE", "DARN", "DEAN", "DEAR", "DEN", "DRAVE", "DREG", "EAR", "EARN", "EGAD", "END", "ERA", "ENG", "ERG", "GAD", "GAE", "GANE", "GARDEN", "GEAR", "GED", "GNAR", "GRAD", "GRADE", "GRAN", "GRAND", "NAG", "NARE", "NEAR", "RAD", "RAG", "RAGE", "RAGED", "RAN", "RAND", "RANG", "RANGE", "RANGED", "READ", "RED", "REG", "REND"], "butterflies": [{"targetWord": "DANGER", "r": 0, "c": 1, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "GARDEN", "r": 0, "c": 5, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "DARE", "r": 0, "c": 0, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"rows": 6, "cols": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "SIN", "r": 0, "c": 0, "d": "V"}, {"w": "GRIP", "r": 0, "c": 5, "d": "V"}, {"w": "SPIN", "r": 0, "c": 0, "d": "V"}]}, "dict": ["GIN", "GINS", "GIP", "GIRN", "GRIP", "GRIPS", "INS", "NIP", "NIPS", "PIG", "PIGS", "PIN", "PING", "PINGS", "PINS", "PIRN", "PIRNS", "PRIG", "PRIGS", "PSI", "RIG", "RIGS", "RIN", "RING", "RINGS", "RINS", "RIP", "RIPS", "SIGN", "SIN", "SING", "SIP", "SIR", "SNIP", "SPIN", "SPRIG", "SPRING"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 3, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "GRIP", "r": 0, "c": 6, "species": "Monarch", "color": "#f97316"}, {"targetWord": "SPIN", "r": 0, "c": 0, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
 
 const SPECIES_META = {
   "Monarch": { color: "#f97316", desc: "Orange wanderer" },
@@ -664,28 +874,28 @@ class SoundController {
 
 const sfx = new SoundController();
 
-class WordGame {
+class WordGardenGame {
   constructor() {
-    this.data = { lvl: 0, bf: 0, sp: {}, days: {}, snd: true };
+    this.data = { lvl: 0, completedLvls: {}, bf: 0, sp: {}, days: {}, snd: true };
     try {
-      const raw = localStorage.getItem("wordgarden_v6");
+      const raw = localStorage.getItem("wordgarden_v7");
       if (raw) {
         const parsed = JSON.parse(raw);
         if (parsed && typeof parsed === "object") {
           this.data = Object.assign(this.data, parsed);
         }
       }
-    } catch(e) {
-      console.warn("Storage warning:", e);
-    }
+    } catch(e) {}
 
     this.data.lvl = Number(this.data.lvl) || 0;
     this.data.bf = Number(this.data.bf) || 0;
-    if (!this.data.sp || typeof this.data.sp !== "object") this.data.sp = {};
-    if (!this.data.days || typeof this.data.days !== "object") this.data.days = {};
+    if (!this.data.completedLvls) this.data.completedLvls = {};
+    if (!this.data.sp) this.data.sp = {};
+    if (!this.data.days) this.data.days = {};
 
     sfx.on = this.data.snd !== false;
     this.mode = "levels";
+    this.currentLevelIndex = this.data.lvl;
     this.today = new Date().toISOString().slice(0, 10);
     this.dailyDate = this.today;
     this.selected = [];
@@ -696,38 +906,68 @@ class WordGame {
     this.activeButterfly = null;
 
     this.bindDOM();
-    this.startPuzzle();
+    this.renderHomeScreen();
+    this.showScreen("home");
   }
 
   save() {
     try {
-      localStorage.setItem("wordgarden_v6", JSON.stringify(this.data));
+      localStorage.setItem("wordgarden_v7", JSON.stringify(this.data));
     } catch(e) {}
   }
 
+  showScreen(scr) {
+    const sHome = document.getElementById("home-screen");
+    const sGame = document.getElementById("game-screen");
+    const sSnc = document.getElementById("sanctuary-screen");
+
+    if (sHome) sHome.style.display = scr === "home" ? "flex" : "none";
+    if (sGame) sGame.style.display = scr === "game" ? "flex" : "none";
+    if (sSnc) sSnc.style.display = scr === "sanctuary" ? "flex" : "none";
+
+    if (scr === "home") {
+      this.renderHomeScreen();
+    } else if (scr === "sanctuary") {
+      this.renderSanctuary();
+    }
+  }
+
   bindDOM() {
-    const sBtn = document.getElementById("btn-sound");
-    if (sBtn) {
-      sBtn.textContent = sfx.on ? "🔊" : "🔇";
-      sBtn.onclick = () => {
+    const sHome = document.getElementById("home-sound-btn");
+    const updateSoundUI = () => {
+      const icon = sfx.on ? "🔊" : "🔇";
+      if (sHome) sHome.textContent = icon;
+    };
+    updateSoundUI();
+    if (sHome) {
+      sHome.onclick = () => {
         sfx.on = !sfx.on;
         this.data.snd = sfx.on;
-        sBtn.textContent = sfx.on ? "🔊" : "🔇";
+        updateSoundUI();
         this.save();
       };
     }
 
-    const tLvl = document.getElementById("tab-lvl");
-    if (tLvl) tLvl.onclick = () => this.switchMode("levels");
+    const hPlay = document.getElementById("home-play-btn");
+    if (hPlay) hPlay.onclick = () => this.startLevel(this.data.lvl);
 
-    const tDay = document.getElementById("tab-day");
-    if (tDay) tDay.onclick = () => this.openCalendar();
+    const cDaily = document.getElementById("card-daily");
+    if (cDaily) cDaily.onclick = () => this.openCalendar();
 
-    const tSnc = document.getElementById("tab-snc");
-    if (tSnc) tSnc.onclick = () => this.switchMode("sanctuary");
+    const cSnc = document.getElementById("card-sanctuary");
+    if (cSnc) cSnc.onclick = () => this.showScreen("sanctuary");
 
-    const bSnc = document.getElementById("btn-sanctuary");
-    if (bSnc) bSnc.onclick = () => this.switchMode("sanctuary");
+    const hSnc = document.getElementById("home-sanctuary-btn");
+    if (hSnc) hSnc.onclick = () => this.showScreen("sanctuary");
+
+    const gSnc = document.getElementById("game-bf-jar");
+    if (gSnc) gSnc.onclick = () => this.showScreen("sanctuary");
+
+    const gHome = document.getElementById("game-home-btn");
+    if (gHome) gHome.onclick = () => this.showScreen("home");
+
+    const sncBack = document.getElementById("sanctuary-back-btn");
+    if (sncBack) sncBack.onclick = () => this.showScreen("home");
 
     const bShuf = document.getElementById("btn-shuffle");
     if (bShuf) bShuf.onclick = () => this.shuffleLetters();
@@ -736,7 +976,7 @@ class WordGame {
     if (bHint) bHint.onclick = () => this.giveHint();
 
     const bRestart = document.getElementById("btn-restart");
-    if (bRestart) bRestart.onclick = () => this.startPuzzle();
+    if (bRestart) bRestart.onclick = () => this.loadActivePuzzle();
 
     const bBonus = document.getElementById("btn-bonus");
     if (bBonus) bBonus.onclick = () => this.openBonus();
@@ -747,40 +987,79 @@ class WordGame {
     const cCal = document.getElementById("btn-close-cal");
     if (cCal) cCal.onclick = () => document.getElementById("cal-modal").classList.remove("active");
 
-    const bNext = document.getElementById("btn-win-next");
-    if (bNext) bNext.onclick = () => {
+    const bWinNext = document.getElementById("btn-win-next");
+    if (bWinNext) bWinNext.onclick = () => {
       document.getElementById("win-modal").classList.remove("active");
-      if (this.mode === "daily") this.switchMode("sanctuary");
-      else this.startPuzzle();
+      if (this.mode === "daily") {
+        this.showScreen("sanctuary");
+      } else {
+        this.startLevel(this.data.lvl);
+      }
+    };
+
+    const bWinHome = document.getElementById("btn-win-home");
+    if (bWinHome) bWinHome.onclick = () => {
+      document.getElementById("win-modal").classList.remove("active");
+      this.showScreen("home");
     };
 
     this.setupPointerGestures();
-    this.updateBadge();
   }
 
-  updateBadge() {
-    const b = document.getElementById("bf-count");
-    if (b) b.textContent = this.data.bf || 0;
-  }
+  renderHomeScreen() {
+    const curIdx = this.data.lvl % LEVELS.length;
+    const curLvl = LEVELS[curIdx];
 
-  switchMode(m) {
-    this.mode = m;
-    document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
-    const gameScr = document.getElementById("game-screen");
-    const sncScr = document.getElementById("sanctuary-screen");
+    const hHeroLvl = document.getElementById("home-hero-level");
+    if (hHeroLvl) hHeroLvl.textContent = `Level ${this.data.lvl + 1}`;
 
-    if (gameScr) gameScr.style.display = m === "sanctuary" ? "none" : "flex";
-    if (sncScr) sncScr.classList.toggle("active", m === "sanctuary");
+    const hHeroCh = document.getElementById("home-hero-chapter");
+    if (hHeroCh) hHeroCh.textContent = curLvl.title;
 
-    if (m === "levels") {
-      const tl = document.getElementById("tab-lvl");
-      if (tl) tl.classList.add("active");
-      this.startPuzzle();
-    } else if (m === "sanctuary") {
-      const ts = document.getElementById("tab-snc");
-      if (ts) ts.classList.add("active");
-      this.renderSanctuary();
+    const hPlayText = document.getElementById("home-play-text");
+    if (hPlayText) hPlayText.textContent = `PLAY LEVEL ${this.data.lvl + 1}`;
+
+    const hBf = document.getElementById("home-bf-count");
+    if (hBf) hBf.textContent = this.data.bf || 0;
+
+    const gBf = document.getElementById("game-bf-count");
+    if (gBf) gBf.textContent = this.data.bf || 0;
+
+    const dDate = document.getElementById("card-daily-date");
+    if (dDate) dDate.textContent = this.today;
+
+    const gridEl = document.getElementById("level-select-grid");
+    if (gridEl) {
+      gridEl.innerHTML = "";
+      LEVELS.forEach((lvl, idx) => {
+        const card = document.createElement("div");
+        const isCompleted = !!this.data.completedLvls[idx];
+        const isCurrent = (idx === curIdx);
+        const isUnlocked = idx <= this.data.lvl;
+
+        card.className = "level-node-card" + 
+          (isCompleted ? " completed" : "") + 
+          (isCurrent ? " current" : "") + 
+          (!isUnlocked ? " locked" : "");
+
+        card.innerHTML = `
+          <span>${idx + 1}</span>
+          <span style="font-size:0.6rem; text-transform:uppercase; margin-top:2px;">${isUnlocked ? lvl.title.split(' ')[0] : '🔒'}</span>
+        `;
+
+        if (isUnlocked) {
+          card.onclick = () => this.startLevel(idx);
+        }
+        gridEl.appendChild(card);
+      });
     }
+  }
+
+  startLevel(idx) {
+    this.mode = "levels";
+    this.currentLevelIndex = idx;
+    this.showScreen("game");
+    this.loadActivePuzzle();
   }
 
   openCalendar() {
@@ -801,31 +1080,25 @@ class WordGame {
         this.dailyDate = ds;
         modal.classList.remove("active");
         this.mode = "daily";
-        document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
-        const td = document.getElementById("tab-day");
-        if (td) td.classList.add("active");
-        const gs = document.getElementById("game-screen");
-        if (gs) gs.style.display = "flex";
-        const ss = document.getElementById("sanctuary-screen");
-        if (ss) ss.classList.remove("active");
-        this.startPuzzle();
+        this.showScreen("game");
+        this.loadActivePuzzle();
       };
       grid.appendChild(el);
     }
     modal.classList.add("active");
   }
 
-  startPuzzle() {
+  loadActivePuzzle() {
     this.solvedWords.clear();
     this.bonusWordsFound.clear();
     this.activeButterfly = null;
     this.butterflyQueue = [];
 
     if (this.mode === "levels") {
-      const idx = (this.data.lvl || 0) % LEVELS.length;
+      const idx = this.currentLevelIndex % LEVELS.length;
       this.puzzle = JSON.parse(JSON.stringify(LEVELS[idx]));
       const lt = document.getElementById("level-title");
-      if (lt) lt.textContent = `Level ${this.data.lvl + 1}`;
+      if (lt) lt.textContent = `Level ${this.currentLevelIndex + 1}`;
       const ls = document.getElementById("level-sub");
       if (ls) ls.textContent = this.puzzle.title;
     } else {
@@ -1058,7 +1331,6 @@ class WordGame {
     const pill = document.getElementById("preview-pill");
     if (pill) pill.classList.remove("visible");
 
-    // Strictly minimum 3 letters (no 2-letter words)
     if (word.length < 3) {
       if (word.length === 2) {
         this.showToast("Words must be 3+ letters");
@@ -1067,7 +1339,6 @@ class WordGame {
       return;
     }
 
-    // 1. Check if word is part of crossword grid
     const target = this.puzzle.grid.words.find(w => w.w === word);
     if (target) {
       if (this.solvedWords.has(word)) {
@@ -1082,7 +1353,6 @@ class WordGame {
       return;
     }
 
-    // 2. Check if valid English word from dictionary (Bonus Words)
     if (this.puzzle.dict && this.puzzle.dict.includes(word)) {
       if (this.bonusWordsFound.has(word)) {
         this.showToast("Bonus word already found!");
@@ -1094,7 +1364,7 @@ class WordGame {
       return;
     }
 
-    // 3. Invalid word
+    this.showToast("Not in dictionary");
     sfx.errorTone();
     if (pill) {
       pill.textContent = word;
@@ -1129,7 +1399,7 @@ class WordGame {
   collectActiveButterfly() {
     const bf = this.activeButterfly;
     const bfEl = document.getElementById("active-board-bf");
-    const targetBtn = document.getElementById("btn-sanctuary");
+    const targetBtn = document.getElementById("game-bf-jar");
 
     if (bfEl && targetBtn) {
       const r1 = bfEl.getBoundingClientRect();
@@ -1154,7 +1424,11 @@ class WordGame {
         this.data.bf = (this.data.bf || 0) + 1;
         this.data.sp[bf.species] = (this.data.sp[bf.species] || 0) + 1;
         this.save();
-        this.updateBadge();
+        const b = document.getElementById("game-bf-count");
+        if (b) b.textContent = this.data.bf;
+        const hb = document.getElementById("home-bf-count");
+        if (hb) hb.textContent = this.data.bf;
+
         const jar = document.querySelector(".butterfly-jar");
         if (jar) {
           jar.classList.add("pulse");
@@ -1173,23 +1447,26 @@ class WordGame {
         const m = document.getElementById("win-modal");
         if (!m) return;
         if (this.mode === "levels") {
-          this.data.lvl = (this.data.lvl || 0) + 1;
+          this.data.completedLvls[this.currentLevelIndex] = true;
+          if (this.currentLevelIndex === this.data.lvl) {
+            this.data.lvl++;
+          }
           this.save();
           const wt = document.getElementById("win-title");
           if (wt) wt.textContent = "Level Complete!";
           const wd = document.getElementById("win-desc");
-          if (wd) wd.textContent = `Splendid solving for Level ${this.data.lvl}!`;
+          if (wd) wd.textContent = `Terrific solving for Level ${this.currentLevelIndex + 1}!`;
           const wn = document.getElementById("btn-win-next");
-          if (wn) wn.textContent = "Next Level";
+          if (wn) wn.textContent = "Next Level ▶";
         } else {
           this.data.days[this.dailyDate] = true;
           this.save();
           const wt = document.getElementById("win-title");
-          if (wt) wt.textContent = "Daily Challenge Solved!";
+          if (wt) wt.textContent = "Daily Solved!";
           const wd = document.getElementById("win-desc");
-          if (wd) wd.textContent = `All daily butterflies transferred to your sanctuary!`;
+          if (wd) wd.textContent = `All daily butterflies added to your sanctuary!`;
           const wn = document.getElementById("btn-win-next");
-          if (wn) wn.textContent = "View Sanctuary";
+          if (wn) wn.textContent = "View Sanctuary 🌸";
         }
         m.classList.add("active");
       }, 550);
@@ -1228,7 +1505,7 @@ class WordGame {
     }
 
     if (!total) {
-      meadow.innerHTML = '<div style="text-align:center; padding-top:80px; color:#f8fafc; font-size:0.9rem; font-weight:700;">Solve Daily Challenges to attract butterflies to your meadow!</div>';
+      meadow.innerHTML = '<div style="text-align:center; padding-top:80px; color:#f8fafc; font-size:0.9rem; font-weight:700;">Solve Dailyf8fafc; font-size:0.9rem; font-weight:700;">Solve Daily Challenges to attract butterflies to your meadow!</div>';
     }
 
     Object.keys(SPECIES_META).forEach(name => {
@@ -1256,15 +1533,10 @@ class WordGame {
 function launchWordGarden() {
   try {
     if (!window._gameInstance) {
-      window._gameInstance = new WordGame();
+      window._gameInstance = new WordGardenGame();
     }
   } catch (err) {
     console.error("Initialization error:", err);
-    const t = document.getElementById("toast");
-    if (t) {
-      t.textContent = "Loading error: " + err.message;
-      t.classList.add("show");
-    }
   }
 }
 
