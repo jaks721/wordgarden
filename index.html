@@ -412,7 +412,7 @@
       width: 100%;
       max-width: 380px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    }}
+    }
 
     .modal-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
     .modal-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
@@ -464,10 +464,10 @@
     }
 
     @keyframes meadowGlide {
-      0% {{ transform: translate(0, 0) rotate(-10deg); }}
-      33% {{ transform: translate(40px, -30px) rotate(10deg); }}
-      66% {{ transform: translate(-25px, -50px) rotate(-8deg); }}
-      100% {{ transform: translate(30px, -20px) rotate(5deg); }}
+      0% { transform: translate(0, 0) rotate(-10deg); }
+      33% { transform: translate(40px, -30px) rotate(10deg); }
+      66% { transform: translate(-25px, -50px) rotate(-8deg); }
+      100% { transform: translate(30px, -20px) rotate(5deg); }
     }
 
     .species-collection {
@@ -622,8 +622,8 @@
 </div>
 
 <script>
-const LEVELS = {levels_json};
-const DAILY_PUZZLES = {daily_json};
+const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "LATE", "r": 1, "c": 0, "d": "H"}, {"w": "NEAT", "r": 0, "c": 3, "d": "V"}, {"w": "TAP", "r": 3, "c": 3, "d": "H"}, {"w": "TEA", "r": 0, "c": 5, "d": "V"}]}, "dict": ["ALE", "ANT", "APE", "APT", "ATE", "EAT", "LANE", "LAP", "LATE", "LEAN", "LEAP", "LEPT", "LET", "NAP", "NEAT", "NET", "PAL", "PALE", "PAN", "PANEL", "PAT", "PEAT", "PELT", "PEN", "PENT", "PET", "PLAN", "PLANE", "PLANET", "PLANT", "PLAT", "PLEA", "TALE", "TAN", "TAP", "TAPE", "TEA", "TEAL", "TEN"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "VILE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 2, "d": "H"}, {"w": "SIR", "r": 0, "c": 0, "d": "V"}]}, "dict": ["EVIL", "IRE", "LIE", "LIES", "LIVE", "LIVER", "RILE", "RISE", "RIVE", "SILVER", "SIR", "SIRE", "SLIVER", "VEIL", "VIE", "VILE", "VIS"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"rows": 4, "cols": 6, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "TALE", "r": 0, "c": 3, "d": "V"}, {"w": "CASE", "r": 0, "c": 0, "d": "V"}, {"w": "ATE", "r": 1, "c": 3, "d": "H"}, {"w": "SET", "r": 2, "c": 0, "d": "H"}]}, "dict": ["ACE", "ACT", "ACTS", "ALE", "ATE", "CASE", "CASTLE", "CAT", "CATS", "CLEAT", "EAST", "EAT", "LAST", "LATE", "LET", "SALE", "SALT", "SAT", "SCALE", "SEAL", "SEAT", "SET", "SLATE", "STALE", "TALE", "TEA", "TEAL"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "LOWER", "r": 0, "c": 1, "d": "V"}, {"w": "WORE", "r": 2, "c": 1, "d": "H"}, {"w": "ROW", "r": 4, "c": 1, "d": "H"}, {"w": "FOR", "r": 0, "c": 0, "d": "V"}]}, "dict": ["FEW", "FLOW", "FLOWER", "FOR", "FORE", "FOWL", "FRO", "LORE", "LOW", "LOWER", "ORE", "OWL", "REF", "ROE", "ROLE", "ROW", "WOE", "WOLF", "WORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"rows": 4, "cols": 7, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "TIRE", "r": 0, "c": 3, "d": "V"}, {"w": "RENT", "r": 2, "c": 3, "d": "H"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "NET", "r": 0, "c": 2, "d": "V"}]}, "dict": ["INTER", "IRE", "NET", "NEW", "RENT", "RITE", "TEN", "TIER", "TIN", "TIRE", "TWIN", "TWINE", "WET", "WIN", "WINE", "WINTER", "WIRE", "WIT", "WRITE"]}];
+const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"rows": 4, "cols": 6, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 0, "c": 3, "d": "V"}, {"w": "BET", "r": 0, "c": 0, "d": "V"}, {"w": "RUB", "r": 0, "c": 5, "d": "V"}]}, "dict": ["BET", "BRUT", "BUT", "BUTE", "BUTTER", "RUB", "RUBE", "RUE", "TRUE", "TUB", "TUBE", "UTTER"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 3, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "TRUE", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"rows": 6, "cols": 7, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "RED", "r": 5, "c": 3, "d": "H"}]}, "dict": ["AGE", "AND", "ARE", "DANGER", "DARE", "DEAN", "DEN", "EAR", "EARN", "END", "ERA", "GARDEN", "GEAR", "GRADE", "NEAR", "RAG", "RANG", "RANGED", "READ", "RED"], "butterflies": [{"targetWord": "GARDEN", "r": 0, "c": 1, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "DANGER", "r": 3, "c": 3, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "NEAR", "r": 2, "c": 5, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"rows": 5, "cols": 6, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 2, "d": "H"}, {"w": "PIN", "r": 0, "c": 1, "d": "V"}, {"w": "SIN", "r": 0, "c": 0, "d": "V"}]}, "dict": ["GIN", "GRIP", "NIP", "PIG", "PIN", "PING", "PRIG", "RINGS", "RIP", "SIGN", "SIN", "SING", "SIR", "SNIP", "SPIN", "SPRING"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 4, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "GRIP", "r": 3, "c": 4, "species": "Monarch", "color": "#f97316"}, {"targetWord": "RINGS", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
 
 const SPECIES_META = {
   "Monarch": { color: "#f97316", desc: "Orange wanderer" },
@@ -636,15 +636,25 @@ const SPECIES_META = {
 
 class SoundController {
   constructor() { this.ctx = null; this.on = true; }
-  init() { if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); }
+  init() {
+    try {
+      if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    } catch(e) {}
+  }
   tone(f, type="sine", dur=0.2) {
-    if (!this.on) return; this.init(); if (!this.ctx) return;
-    const o = this.ctx.createOscillator(), g = this.ctx.createGain();
-    o.type = type; o.frequency.setValueAtTime(f, this.ctx.currentTime);
-    g.gain.setValueAtTime(0.12, this.ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
-    o.connect(g); g.connect(this.ctx.destination);
-    o.start(); o.stop(this.ctx.currentTime + dur);
+    if (!this.on) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+      o.type = type; o.frequency.setValueAtTime(f, this.ctx.currentTime);
+      g.gain.setValueAtTime(0.12, this.ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+      o.connect(g); g.connect(this.ctx.destination);
+      o.start(); o.stop(this.ctx.currentTime + dur);
+    } catch(e) {}
   }
   letter(i) { this.tone([261, 293, 329, 349, 392, 440, 493, 523][i % 8]); }
   wordSuccess() { [523, 659, 783].forEach((f, i) => setTimeout(() => this.tone(f, "triangle", 0.35), i * 90)); }
@@ -656,7 +666,24 @@ const sfx = new SoundController();
 
 class WordGame {
   constructor() {
-    this.data = JSON.parse(localStorage.getItem("wordgarden_v6") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
+    this.data = { lvl: 0, bf: 0, sp: {}, days: {}, snd: true };
+    try {
+      const raw = localStorage.getItem("wordgarden_v6");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          this.data = Object.assign(this.data, parsed);
+        }
+      }
+    } catch(e) {
+      console.warn("Storage warning:", e);
+    }
+
+    this.data.lvl = Number(this.data.lvl) || 0;
+    this.data.bf = Number(this.data.bf) || 0;
+    if (!this.data.sp || typeof this.data.sp !== "object") this.data.sp = {};
+    if (!this.data.days || typeof this.data.days !== "object") this.data.days = {};
+
     sfx.on = this.data.snd !== false;
     this.mode = "levels";
     this.today = new Date().toISOString().slice(0, 10);
@@ -672,25 +699,56 @@ class WordGame {
     this.startPuzzle();
   }
 
-  save() { localStorage.setItem("wordgarden_v6", JSON.stringify(this.data)); }
+  save() {
+    try {
+      localStorage.setItem("wordgarden_v6", JSON.stringify(this.data));
+    } catch(e) {}
+  }
 
   bindDOM() {
     const sBtn = document.getElementById("btn-sound");
-    sBtn.textContent = sfx.on ? "🔊" : "🔇";
-    sBtn.onclick = () => { sfx.on = !sfx.on; this.data.snd = sfx.on; sBtn.textContent = sfx.on ? "🔊" : "🔇"; this.save(); };
+    if (sBtn) {
+      sBtn.textContent = sfx.on ? "🔊" : "🔇";
+      sBtn.onclick = () => {
+        sfx.on = !sfx.on;
+        this.data.snd = sfx.on;
+        sBtn.textContent = sfx.on ? "🔊" : "🔇";
+        this.save();
+      };
+    }
 
-    document.getElementById("tab-lvl").onclick = () => this.switchMode("levels");
-    document.getElementById("tab-day").onclick = () => this.openCalendar();
-    document.getElementById("tab-snc").onclick = () => this.switchMode("sanctuary");
-    document.getElementById("btn-sanctuary").onclick = () => this.switchMode("sanctuary");
+    const tLvl = document.getElementById("tab-lvl");
+    if (tLvl) tLvl.onclick = () => this.switchMode("levels");
 
-    document.getElementById("btn-shuffle").onclick = () => this.shuffleLetters();
-    document.getElementById("btn-hint").onclick = () => this.giveHint();
-    document.getElementById("btn-restart").onclick = () => this.startPuzzle();
-    document.getElementById("btn-bonus").onclick = () => this.openBonus();
-    document.getElementById("btn-close-bonus").onclick = () => document.getElementById("bonus-modal").classList.remove("active");
-    document.getElementById("btn-close-cal").onclick = () => document.getElementById("cal-modal").classList.remove("active");
-    document.getElementById("btn-win-next").onclick = () => {
+    const tDay = document.getElementById("tab-day");
+    if (tDay) tDay.onclick = () => this.openCalendar();
+
+    const tSnc = document.getElementById("tab-snc");
+    if (tSnc) tSnc.onclick = () => this.switchMode("sanctuary");
+
+    const bSnc = document.getElementById("btn-sanctuary");
+    if (bSnc) bSnc.onclick = () => this.switchMode("sanctuary");
+
+    const bShuf = document.getElementById("btn-shuffle");
+    if (bShuf) bShuf.onclick = () => this.shuffleLetters();
+
+    const bHint = document.getElementById("btn-hint");
+    if (bHint) bHint.onclick = () => this.giveHint();
+
+    const bRestart = document.getElementById("btn-restart");
+    if (bRestart) bRestart.onclick = () => this.startPuzzle();
+
+    const bBonus = document.getElementById("btn-bonus");
+    if (bBonus) bBonus.onclick = () => this.openBonus();
+
+    const cBonus = document.getElementById("btn-close-bonus");
+    if (cBonus) cBonus.onclick = () => document.getElementById("bonus-modal").classList.remove("active");
+
+    const cCal = document.getElementById("btn-close-cal");
+    if (cCal) cCal.onclick = () => document.getElementById("cal-modal").classList.remove("active");
+
+    const bNext = document.getElementById("btn-win-next");
+    if (bNext) bNext.onclick = () => {
       document.getElementById("win-modal").classList.remove("active");
       if (this.mode === "daily") this.switchMode("sanctuary");
       else this.startPuzzle();
@@ -701,29 +759,39 @@ class WordGame {
   }
 
   updateBadge() {
-    document.getElementById("bf-count").textContent = this.data.bf || 0;
+    const b = document.getElementById("bf-count");
+    if (b) b.textContent = this.data.bf || 0;
   }
 
   switchMode(m) {
     this.mode = m;
     document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
-    document.getElementById("game-screen").style.display = m === "sanctuary" ? "none" : "flex";
-    document.getElementById("sanctuary-screen").classList.toggle("active", m === "sanctuary");
+    const gameScr = document.getElementById("game-screen");
+    const sncScr = document.getElementById("sanctuary-screen");
+
+    if (gameScr) gameScr.style.display = m === "sanctuary" ? "none" : "flex";
+    if (sncScr) sncScr.classList.toggle("active", m === "sanctuary");
 
     if (m === "levels") {
-      document.getElementById("tab-lvl").classList.add("active");
+      const tl = document.getElementById("tab-lvl");
+      if (tl) tl.classList.add("active");
       this.startPuzzle();
     } else if (m === "sanctuary") {
-      document.getElementById("tab-snc").classList.add("active");
+      const ts = document.getElementById("tab-snc");
+      if (ts) ts.classList.add("active");
       this.renderSanctuary();
     }
   }
 
   openCalendar() {
-    const modal = document.getElementById("cal-modal"), grid = document.getElementById("cal-grid");
+    const modal = document.getElementById("cal-modal");
+    const grid = document.getElementById("cal-grid");
+    if (!modal || !grid) return;
     grid.innerHTML = "";
+
     const now = new Date(), y = now.getFullYear(), m = now.getMonth();
     const days = new Date(y, m + 1, 0).getDate();
+
     for (let d = 1; d <= days; d++) {
       const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const el = document.createElement("div");
@@ -734,9 +802,12 @@ class WordGame {
         modal.classList.remove("active");
         this.mode = "daily";
         document.querySelectorAll(".tab-item").forEach(t => t.classList.remove("active"));
-        document.getElementById("tab-day").classList.add("active");
-        document.getElementById("game-screen").style.display = "flex";
-        document.getElementById("sanctuary-screen").classList.remove("active");
+        const td = document.getElementById("tab-day");
+        if (td) td.classList.add("active");
+        const gs = document.getElementById("game-screen");
+        if (gs) gs.style.display = "flex";
+        const ss = document.getElementById("sanctuary-screen");
+        if (ss) ss.classList.remove("active");
         this.startPuzzle();
       };
       grid.appendChild(el);
@@ -753,15 +824,19 @@ class WordGame {
     if (this.mode === "levels") {
       const idx = (this.data.lvl || 0) % LEVELS.length;
       this.puzzle = JSON.parse(JSON.stringify(LEVELS[idx]));
-      document.getElementById("level-title").textContent = `Level ${this.data.lvl + 1}`;
-      document.getElementById("level-sub").textContent = this.puzzle.title;
+      const lt = document.getElementById("level-title");
+      if (lt) lt.textContent = `Level ${this.data.lvl + 1}`;
+      const ls = document.getElementById("level-sub");
+      if (ls) ls.textContent = this.puzzle.title;
     } else {
       let h = 0;
       for (let i = 0; i < this.dailyDate.length; i++) h = (h << 5) - h + this.dailyDate.charCodeAt(i);
       const idx = Math.abs(h) % DAILY_PUZZLES.length;
       this.puzzle = JSON.parse(JSON.stringify(DAILY_PUZZLES[idx]));
-      document.getElementById("level-title").textContent = "Daily Challenge";
-      document.getElementById("level-sub").textContent = this.dailyDate;
+      const lt = document.getElementById("level-title");
+      if (lt) lt.textContent = "Daily Challenge";
+      const ls = document.getElementById("level-sub");
+      if (ls) ls.textContent = this.dailyDate;
 
       if (this.puzzle.butterflies) {
         this.butterflyQueue = [...this.puzzle.butterflies];
@@ -804,7 +879,9 @@ class WordGame {
   }
 
   renderCrossword() {
-    const gridEl = document.getElementById("grid"), pGrid = this.puzzle.grid;
+    const gridEl = document.getElementById("grid");
+    if (!gridEl) return;
+    const pGrid = this.puzzle.grid;
     gridEl.innerHTML = "";
 
     const maxCols = pGrid.cols;
@@ -817,7 +894,8 @@ class WordGame {
     this.gridMap = {};
     pGrid.words.forEach(w => {
       for (let i = 0; i < w.w.length; i++) {
-        const r = w.d === "H" ? w.r : w.r + i, c = w.d === "H" ? w.c + i : w.c;
+        const r = w.d === "H" ? w.r : w.r + i;
+        const c = w.d === "H" ? w.c + i : w.c;
         this.gridMap[`${r},${c}`] = w.w[i];
       }
     });
@@ -837,13 +915,16 @@ class WordGame {
   }
 
   renderWheel() {
-    const container = document.getElementById("node-container"), letters = this.puzzle.letters;
+    const container = document.getElementById("node-container");
+    if (!container) return;
+    const letters = this.puzzle.letters;
     container.innerHTML = "";
     const cx = 110, cy = 110, radius = 75;
 
     letters.forEach((char, i) => {
       const ang = (i * 2 * Math.PI / letters.length) - Math.PI / 2;
-      const x = cx + radius * Math.cos(ang), y = cy + radius * Math.sin(ang);
+      const x = cx + radius * Math.cos(ang);
+      const y = cy + radius * Math.sin(ang);
       const node = document.createElement("div");
       node.className = "letter-node";
       node.id = `node-${i}`;
@@ -857,7 +938,8 @@ class WordGame {
       container.appendChild(node);
     });
 
-    document.getElementById("wheel-lines").innerHTML = "";
+    const lines = document.getElementById("wheel-lines");
+    if (lines) lines.innerHTML = "";
   }
 
   shuffleLetters() {
@@ -867,24 +949,33 @@ class WordGame {
   }
 
   giveHint() {
-    const unrevealed = Object.keys(this.gridMap).filter(k => !document.getElementById(`tile-${k}`).classList.contains("solved"));
+    const unrevealed = Object.keys(this.gridMap).filter(k => {
+      const el = document.getElementById(`tile-${k}`);
+      return el && !el.classList.contains("solved");
+    });
     if (!unrevealed.length) return this.showToast("All words solved!");
     const pick = unrevealed[Math.floor(Math.random() * unrevealed.length)];
     const el = document.getElementById(`tile-${pick}`);
-    el.className = "tile solved";
-    el.textContent = this.gridMap[pick];
-    sfx.letter(0);
-    this.checkCompletion();
+    if (el) {
+      el.className = "tile solved";
+      el.textContent = this.gridMap[pick];
+      sfx.letter(0);
+      this.checkCompletion();
+    }
   }
 
   openBonus() {
     const l = document.getElementById("bonus-words-list");
-    l.innerHTML = this.bonusWordsFound.size ? Array.from(this.bonusWordsFound).map(w => `★ ${w}`).join("<br>") : "None yet";
-    document.getElementById("bonus-modal").classList.add("active");
+    if (l) {
+      l.innerHTML = this.bonusWordsFound.size ? Array.from(this.bonusWordsFound).map(w => `★ ${w}`).join("<br>") : "None yet";
+    }
+    const bm = document.getElementById("bonus-modal");
+    if (bm) bm.classList.add("active");
   }
 
   setupPointerGestures() {
     const wheel = document.getElementById("wheel-plate");
+    if (!wheel) return;
 
     wheel.addEventListener("pointerdown", e => {
       e.preventDefault();
@@ -913,7 +1004,9 @@ class WordGame {
   }
 
   processPointer(clientX, clientY) {
-    const rect = document.getElementById("wheel-plate").getBoundingClientRect();
+    const wheel = document.getElementById("wheel-plate");
+    if (!wheel) return;
+    const rect = wheel.getBoundingClientRect();
     const rx = clientX - rect.left, ry = clientY - rect.top;
 
     document.querySelectorAll(".letter-node").forEach(node => {
@@ -929,23 +1022,26 @@ class WordGame {
           if (navigator.vibrate) navigator.vibrate(10);
         } else if (this.selected.length > 1 && this.selected[this.selected.length - 2].idx === idx) {
           const popped = this.selected.pop();
-          popped.el.classList.remove("selected");
+          if (popped && popped.el) popped.el.classList.remove("selected");
         }
       }
     });
 
     this.drawSwipeLines(rx, ry);
     const pill = document.getElementById("preview-pill");
-    if (this.selected.length > 0) {
-      pill.textContent = this.selected.map(s => s.ch).join("");
-      pill.classList.add("visible");
-    } else {
-      pill.classList.remove("visible");
+    if (pill) {
+      if (this.selected.length > 0) {
+        pill.textContent = this.selected.map(s => s.ch).join("");
+        pill.classList.add("visible");
+      } else {
+        pill.classList.remove("visible");
+      }
     }
   }
 
   drawSwipeLines(rx, ry) {
     const svg = document.getElementById("wheel-lines");
+    if (!svg) return;
     if (!this.selected.length) return svg.innerHTML = "";
     let pts = this.selected.map(s => `${s.x},${s.y}`).join(" ");
     svg.innerHTML = `
@@ -957,8 +1053,10 @@ class WordGame {
   submitWord() {
     const word = this.selected.map(s => s.ch).join("");
     document.querySelectorAll(".letter-node").forEach(n => n.classList.remove("selected"));
-    document.getElementById("wheel-lines").innerHTML = "";
-    document.getElementById("preview-pill").classList.remove("visible");
+    const svg = document.getElementById("wheel-lines");
+    if (svg) svg.innerHTML = "";
+    const pill = document.getElementById("preview-pill");
+    if (pill) pill.classList.remove("visible");
 
     // Strictly minimum 3 letters (no 2-letter words)
     if (word.length < 3) {
@@ -998,10 +1096,11 @@ class WordGame {
 
     // 3. Invalid word
     sfx.errorTone();
-    const pill = document.getElementById("preview-pill");
-    pill.textContent = word;
-    pill.classList.add("visible", "shake");
-    setTimeout(() => pill.classList.remove("visible", "shake"), 450);
+    if (pill) {
+      pill.textContent = word;
+      pill.classList.add("visible", "shake");
+      setTimeout(() => pill.classList.remove("visible", "shake"), 450);
+    }
   }
 
   revealWord(target) {
@@ -1030,10 +1129,11 @@ class WordGame {
   collectActiveButterfly() {
     const bf = this.activeButterfly;
     const bfEl = document.getElementById("active-board-bf");
-    const targetBadge = document.getElementById("btn-sanctuary").getBoundingClientRect();
+    const targetBtn = document.getElementById("btn-sanctuary");
 
-    if (bfEl) {
+    if (bfEl && targetBtn) {
       const r1 = bfEl.getBoundingClientRect();
+      const targetBadge = targetBtn.getBoundingClientRect();
       const fly = document.createElement("div");
       fly.className = "flying-butterfly";
       fly.style.left = `${r1.left}px`;
@@ -1056,8 +1156,10 @@ class WordGame {
         this.save();
         this.updateBadge();
         const jar = document.querySelector(".butterfly-jar");
-        jar.classList.add("pulse");
-        setTimeout(() => jar.classList.remove("pulse"), 350);
+        if (jar) {
+          jar.classList.add("pulse");
+          setTimeout(() => jar.classList.remove("pulse"), 350);
+        }
         this.showToast(`Caught ${bf.species}! 🦋`);
 
         setTimeout(() => this.spawnNextButterfly(), 600);
@@ -1069,21 +1171,25 @@ class WordGame {
     if (this.solvedWords.size >= this.puzzle.grid.words.length) {
       setTimeout(() => {
         const m = document.getElementById("win-modal");
+        if (!m) return;
         if (this.mode === "levels") {
           this.data.lvl = (this.data.lvl || 0) + 1;
           this.save();
-          document.getElementById("win-title").textContent = "Level Complete!";
-          document.getElementById("win-desc").textContent = `Splendid solving for Level ${this.data.lvl}!`;
-          document.getElementById("btn-win-next").textContent = "Next Level";
-        } else {
-          this.data.days[this.dailyDate] = true;
-          ";
+          const wt = document.getElementById("win-title");
+          if (wt) wt.textContent = "Level Complete!";
+          const wd = document.getElementById("win-desc");
+          if (wd) wd.textContent = `Splendid solving for Level ${this.data.lvl}!`;
+          const wn = document.getElementById("btn-win-next");
+          if (wn) wn.textContent = "Next Level";
         } else {
           this.data.days[this.dailyDate] = true;
           this.save();
-          document.getElementById("win-title").textContent = "Daily Challenge Solved!";
-          document.getElementById("win-desc").textContent = `All daily butterflies transferred to your sanctuary!`;
-          document.getElementById("btn-win-next").textContent = "View Sanctuary";
+          const wt = document.getElementById("win-title");
+          if (wt) wt.textContent = "Daily Challenge Solved!";
+          const wd = document.getElementById("win-desc");
+          if (wd) wd.textContent = `All daily butterflies transferred to your sanctuary!`;
+          const wn = document.getElementById("btn-win-next");
+          if (wn) wn.textContent = "View Sanctuary";
         }
         m.classList.add("active");
       }, 550);
@@ -1092,6 +1198,7 @@ class WordGame {
 
   showToast(msg) {
     const t = document.getElementById("toast");
+    if (!t) return;
     t.textContent = msg;
     t.classList.add("show");
     setTimeout(() => t.classList.remove("show"), 1600);
@@ -1100,6 +1207,7 @@ class WordGame {
   renderSanctuary() {
     const meadow = document.getElementById("sanctuary-meadow");
     const collection = document.getElementById("species-collection");
+    if (!meadow || !collection) return;
     meadow.innerHTML = "";
     collection.innerHTML = "";
 
@@ -1145,18 +1253,26 @@ class WordGame {
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => new WordGame());
+function launchWordGarden() {
+  try {
+    if (!window._gameInstance) {
+      window._gameInstance = new WordGame();
+    }
+  } catch (err) {
+    console.error("Initialization error:", err);
+    const t = document.getElementById("toast");
+    if (t) {
+      t.textContent = "Loading error: " + err.message;
+      t.classList.add("show");
+    }
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", launchWordGarden);
+} else {
+  launchWordGarden();
+}
 </script>
 </body>
 </html>
-"""
-
-with open("/working_dir/c_0ea3385d52d0c95b/index.html", "w", encoding="utf-8") as f:
-    f.write(html)
-
-print("Saved production index.html. Length:", len(html))
-EOF
-python3 /working_dir/c_0ea3385d52d0c95b/make_production_app.py
-}}
-
-http://googleusercontent.com/action_card_content/03c4d342-1d22-4754-82fe-94e17953e00b
