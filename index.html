@@ -178,7 +178,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
+      padding: 8px;
       position: relative;
       overflow: hidden;
     }
@@ -412,7 +412,7 @@
       width: 100%;
       max-width: 380px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    }
+    }}
 
     .modal-title { font-size: 1.4rem; font-weight: 900; margin-bottom: 6px; }
     .modal-desc { font-size: 0.88rem; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
@@ -464,10 +464,10 @@
     }
 
     @keyframes meadowGlide {
-      0% { transform: translate(0, 0) rotate(-10deg); }
-      33% { transform: translate(40px, -30px) rotate(10deg); }
-      66% { transform: translate(-25px, -50px) rotate(-8deg); }
-      100% { transform: translate(30px, -20px) rotate(5deg); }
+      0% {{ transform: translate(0, 0) rotate(-10deg); }}
+      33% {{ transform: translate(40px, -30px) rotate(10deg); }}
+      66% {{ transform: translate(-25px, -50px) rotate(-8deg); }}
+      100% {{ transform: translate(30px, -20px) rotate(5deg); }}
     }
 
     .species-collection {
@@ -622,8 +622,8 @@
 </div>
 
 <script>
-const LEVELS = [{"id": 1, "title": "Garden 1", "letters": ["P", "L", "A", "N", "E", "T"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "PLANET", "r": 0, "c": 0, "d": "H"}, {"w": "PLANT", "r": 0, "c": 0, "d": "V"}, {"w": "LANE", "r": 1, "c": 0, "d": "H"}, {"w": "NEAT", "r": 1, "c": 2, "d": "V"}, {"w": "ATE", "r": 3, "c": 2, "d": "H"}, {"w": "TEA", "r": 0, "c": 5, "d": "V"}]}, "bonus": ["PLANE", "PANEL", "LEAN", "LATE", "PALE", "TAPE", "PEAT", "PENT"]}, {"id": 2, "title": "Forest 2", "letters": ["S", "I", "L", "V", "E", "R"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "SILVER", "r": 0, "c": 0, "d": "H"}, {"w": "LIVER", "r": 0, "c": 2, "d": "V"}, {"w": "VILE", "r": 2, "c": 2, "d": "H"}, {"w": "RISE", "r": 4, "c": 2, "d": "H"}, {"w": "SIR", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["SLIVER", "RIVER", "LIVE", "VEIL", "RILE", "LIES", "EVIL", "SIRE"]}, {"id": 3, "title": "Stream 3", "letters": ["C", "A", "S", "T", "L", "E"], "grid": {"cols": 6, "rows": 4, "words": [{"w": "CASTLE", "r": 0, "c": 0, "d": "H"}, {"w": "TALE", "r": 0, "c": 3, "d": "V"}, {"w": "CASE", "r": 0, "c": 0, "d": "V"}, {"w": "ATE", "r": 1, "c": 3, "d": "H"}, {"w": "SET", "r": 2, "c": 0, "d": "H"}]}, "bonus": ["SCALE", "STALE", "SLATE", "CLEAT", "LATE", "EAST", "SALE", "LAST", "CATS"]}, {"id": 4, "title": "Meadow 4", "letters": ["F", "L", "O", "W", "E", "R"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "FLOWER", "r": 0, "c": 0, "d": "H"}, {"w": "LOWER", "r": 0, "c": 1, "d": "V"}, {"w": "WORE", "r": 2, "c": 1, "d": "H"}, {"w": "ROW", "r": 4, "c": 1, "d": "H"}, {"w": "FOR", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["FLOW", "WOLF", "FOWL", "FORE", "ROLE", "LORE", "FRO", "LOW", "FOR", "ORE"]}, {"id": 5, "title": "Sunrise 5", "letters": ["W", "I", "N", "T", "E", "R"], "grid": {"cols": 7, "rows": 4, "words": [{"w": "WINTER", "r": 0, "c": 0, "d": "H"}, {"w": "TIRE", "r": 0, "c": 3, "d": "V"}, {"w": "RENT", "r": 2, "c": 3, "d": "H"}, {"w": "WIRE", "r": 0, "c": 0, "d": "V"}, {"w": "NET", "r": 0, "c": 2, "d": "V"}]}, "bonus": ["WRITE", "TWINE", "INTER", "TWIN", "WINE", "WET", "WIN", "TIN"]}];
-const DAILY_PUZZLES = [{"letters": ["B", "U", "T", "T", "E", "R"], "grid": {"cols": 6, "rows": 4, "words": [{"w": "BUTTER", "r": 0, "c": 0, "d": "H"}, {"w": "TRUE", "r": 0, "c": 2, "d": "V"}, {"w": "TUBE", "r": 0, "c": 3, "d": "V"}, {"w": "BET", "r": 0, "c": 0, "d": "V"}, {"w": "RUB", "r": 0, "c": 5, "d": "V"}]}, "bonus": ["BUTE", "BRET", "TUB", "BUT", "RUE"], "butterflies": [{"targetWord": "BUTTER", "r": 0, "c": 3, "species": "Monarch", "color": "#f97316"}, {"targetWord": "TUBE", "r": 2, "c": 3, "species": "Blue Morpho", "color": "#0284c7"}, {"targetWord": "TRUE", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}, {"letters": ["G", "A", "R", "D", "E", "N"], "grid": {"cols": 7, "rows": 6, "words": [{"w": "GARDEN", "r": 0, "c": 0, "d": "H"}, {"w": "DANGER", "r": 0, "c": 3, "d": "V"}, {"w": "GEAR", "r": 0, "c": 0, "d": "V"}, {"w": "NEAR", "r": 2, "c": 3, "d": "H"}, {"w": "RED", "r": 5, "c": 3, "d": "H"}]}, "bonus": ["RANGED", "GRADE", "DEAN", "DARE", "EARN", "READ", "AGE", "END"], "butterflies": [{"targetWord": "GARDEN", "r": 0, "c": 1, "species": "Violet Copper", "color": "#a855f7"}, {"targetWord": "DANGER", "r": 3, "c": 3, "species": "Sunset Moth", "color": "#ec4899"}, {"targetWord": "NEAR", "r": 2, "c": 5, "species": "Golden Birdwing", "color": "#eab308"}]}, {"letters": ["S", "P", "R", "I", "N", "G"], "grid": {"cols": 6, "rows": 5, "words": [{"w": "SPRING", "r": 0, "c": 0, "d": "H"}, {"w": "RINGS", "r": 0, "c": 2, "d": "V"}, {"w": "GRIP", "r": 3, "c": 2, "d": "H"}, {"w": "PIN", "r": 0, "c": 1, "d": "V"}, {"w": "SIN", "r": 0, "c": 0, "d": "V"}]}, "bonus": ["PRIG", "SIGN", "SNIP", "SING", "PIG", "PIN", "RIP"], "butterflies": [{"targetWord": "SPRING", "r": 0, "c": 4, "species": "Blue Morpho", "color": "#0ea5e9"}, {"targetWord": "GRIP", "r": 3, "c": 4, "species": "Monarch", "color": "#f97316"}, {"targetWord": "RINGS", "r": 1, "c": 2, "species": "Emerald Swallowtail", "color": "#10b981"}]}];
+const LEVELS = {levels_json};
+const DAILY_PUZZLES = {daily_json};
 
 const SPECIES_META = {
   "Monarch": { color: "#f97316", desc: "Orange wanderer" },
@@ -656,7 +656,7 @@ const sfx = new SoundController();
 
 class WordGame {
   constructor() {
-    this.data = JSON.parse(localStorage.getItem("wordgarden_v3") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
+    this.data = JSON.parse(localStorage.getItem("wordgarden_v6") || '{"lvl":0,"bf":0,"sp":{},"days":{},"snd":true}');
     sfx.on = this.data.snd !== false;
     this.mode = "levels";
     this.today = new Date().toISOString().slice(0, 10);
@@ -672,7 +672,7 @@ class WordGame {
     this.startPuzzle();
   }
 
-  save() { localStorage.setItem("wordgarden_v3", JSON.stringify(this.data)); }
+  save() { localStorage.setItem("wordgarden_v6", JSON.stringify(this.data)); }
 
   bindDOM() {
     const sBtn = document.getElementById("btn-sound");
@@ -808,7 +808,7 @@ class WordGame {
     gridEl.innerHTML = "";
 
     const maxCols = pGrid.cols;
-    const cellSize = Math.min(42, Math.max(30, Math.floor(310 / maxCols)));
+    const cellSize = Math.min(44, Math.max(30, Math.floor(310 / maxCols)));
     document.documentElement.style.setProperty("--cell-size", `${cellSize}px`);
 
     gridEl.style.gridTemplateColumns = `repeat(${pGrid.cols}, var(--cell-size))`;
@@ -959,8 +959,17 @@ class WordGame {
     document.querySelectorAll(".letter-node").forEach(n => n.classList.remove("selected"));
     document.getElementById("wheel-lines").innerHTML = "";
     document.getElementById("preview-pill").classList.remove("visible");
-    if (word.length < 2) return;
 
+    // Strictly minimum 3 letters (no 2-letter words)
+    if (word.length < 3) {
+      if (word.length === 2) {
+        this.showToast("Words must be 3+ letters");
+        sfx.errorTone();
+      }
+      return;
+    }
+
+    // 1. Check if word is part of crossword grid
     const target = this.puzzle.grid.words.find(w => w.w === word);
     if (target) {
       if (this.solvedWords.has(word)) {
@@ -975,7 +984,8 @@ class WordGame {
       return;
     }
 
-    if (this.puzzle.bonus && this.puzzle.bonus.includes(word)) {
+    // 2. Check if valid English word from dictionary (Bonus Words)
+    if (this.puzzle.dict && this.puzzle.dict.includes(word)) {
       if (this.bonusWordsFound.has(word)) {
         this.showToast("Bonus word already found!");
       } else {
@@ -986,6 +996,7 @@ class WordGame {
       return;
     }
 
+    // 3. Invalid word
     sfx.errorTone();
     const pill = document.getElementById("preview-pill");
     pill.textContent = word;
@@ -1066,6 +1077,9 @@ class WordGame {
           document.getElementById("btn-win-next").textContent = "Next Level";
         } else {
           this.data.days[this.dailyDate] = true;
+          ";
+        } else {
+          this.data.days[this.dailyDate] = true;
           this.save();
           document.getElementById("win-title").textContent = "Daily Challenge Solved!";
           document.getElementById("win-desc").textContent = `All daily butterflies transferred to your sanctuary!`;
@@ -1135,7 +1149,14 @@ window.addEventListener("DOMContentLoaded", () => new WordGame());
 </script>
 </body>
 </html>
-```DOMContentLoaded", () => new WordGame());
-</script>
-</body>
-</html>
+"""
+
+with open("/working_dir/c_0ea3385d52d0c95b/index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("Saved production index.html. Length:", len(html))
+EOF
+python3 /working_dir/c_0ea3385d52d0c95b/make_production_app.py
+}}
+
+http://googleusercontent.com/action_card_content/03c4d342-1d22-4754-82fe-94e17953e00b
